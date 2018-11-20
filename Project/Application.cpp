@@ -183,11 +183,12 @@ void Application::Delete()
 	data.SetNumFromKB();	//사용자에게서 곡 번호를 입력받는다.
 	SearchByIndex(data);
 	DoublyIter2<ManageType> Mgiter(mg_List);
+	ManageType* mgptr;
 	while (Mgiter.NotNull())
 	{
 		if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
 		{
-			ManageType* mgptr = Mgiter.GetCurrentPtr();
+			mgptr = Mgiter.GetCurrentPtr();
 			mgptr->Deleted();
 		}
 		Mgiter.Next();
@@ -474,6 +475,8 @@ void Application::DIsplayNewMusic()
 	int cnt = 0;
 	DoublyIter2<ManageType> Mgiter(mg_List);
 	Mgiter.Last();
+
+	cout << "이 아래로 터지는 이유를 찾아야함" << endl;
 	while (Mgiter.NotNull() && cnt < 30)
 	{
 		Mgiter.GetCurrentNode().data.PrintNameNIndex();
