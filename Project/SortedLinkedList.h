@@ -230,6 +230,7 @@ int SortedLinkedList<T>::Add(T &data)
 template<typename T>
 int SortedLinkedList<T>::Delete(T& data)
 {
+	/*
 	bool MoreToSearch, found;
 	NodeType<T> *Pre = NULL;
 	DoublyIter<T> iter(*this);
@@ -242,11 +243,12 @@ int SortedLinkedList<T>::Delete(T& data)
 		if (data == iter.CurPointer->data) //현재 가리키는 원소가 패러미터로 넣은 값과 같은가?
 		{
 			found = true;	//찾았으므로 found = true
-			if (Pre == NULL)	//찾은 항목이 첫번째 원소일경우
+			if (iter.CurPointer->pre == NULL)	//찾은 항목이 첫번째 원소일경우
 			{
-				NodeType<T>* temp = iter.CurPointer;		//첫번째 원소의 다음원소를 저장할 임시 포인터선언
+				NodeType<T>* temp = iter.CurPointer->next;		//첫번째 원소의 다음원소를 저장할 임시 포인터선언
 				delete m_pList;	//첫원소를 삭제한다.
 				temp->pre = NULL;
+				temp->next = iter.CurPointer->next->next;
 				m_pList = temp; //찾은 항목이 첫 항목일경우 다음 원소를 첫번째 원소로 한다.
 				
 			}
@@ -256,6 +258,7 @@ int SortedLinkedList<T>::Delete(T& data)
 				Pre->next = iter.CurPointer->next;
 				iter.CurPointer->next->pre = Pre;
 				delete iter.CurPointer;
+		
 			}
 
 
@@ -279,7 +282,31 @@ int SortedLinkedList<T>::Delete(T& data)
 	else    //못 찾으면	
 		return 0;
 
+		*/
 
+	NodeType<T>* pNode = m_pList;
+	int positionIndex = Get(data);
+	if (positionIndex)
+	{
+		for (int i = 1; i < positionIndex; i++)
+			pNode = pNode->next;
+
+		if (pNode->next != NULL)
+			pNode->next->pre = pNode->pre;
+		else
+			m_pLast = pNode->pre;
+
+		if (pNode->pre != NULL)
+			pNode->pre->next = pNode->next;
+		else
+			m_pList = pNode->next;
+
+		delete pNode;
+		m_nLength--;
+		return 1;
+	}
+	else
+		return 0;
 
 }
 

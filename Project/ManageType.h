@@ -4,69 +4,44 @@
 
 class ManageType {
 private:
-	string Pkey;
-	int played;
-	int Index;
-	string name;
-	string artist;
+	MusicType* mptr;
+	bool Isdeleted;
 public:
 	ManageType() {
-		Pkey = "";
-		played = 0;
-		Index = 0;
+		bool Isdeleted = false;
+		mptr = NULL;
 	};
 	~ManageType() {};
-	void setPkey(string key)
+	void setPtr(MusicType* P)
 	{
-		Pkey = key;
+		mptr = P;
 	}
-	void setIndex(int I)
+	MusicType* getPtr()
 	{
-		Index = I;
+		return mptr;
 	}
-	void IncreasePlayed()
+	void Deleted()
 	{
-		played++;
-	}
-	void setName(string N)
-	{
-		name = N;
-	}
-	void setArtist(string A)
-	{
-		artist = A;
-	}
-	string getArtist()
-	{
-		return artist;
-	}
-	string getPkey()
-	{
-		return Pkey;
-	}
-	int getPlayed()
-	{
-		return played;
+		Isdeleted = true;
+		mptr = NULL;
 	}
 	int getIndex()
 	{
-		return Index;
+		if (Isdeleted == false)
+		{
+			return (mptr->GetNum());
+		}
 	}
 	string getName()
-	{
-		return name;
+	{	if(Isdeleted == false)
+		return mptr->GetName();
 	}
+	string getPkey()
+	{	if(Isdeleted == false)
+		return mptr->GetPkey();
+	}
+	void PrintNameNIndex();
 
-	void PrintNameNArtist()
-	{
-		cout << "\t°î¸í : " << name << endl;
-		cout << "\t¾ÆÆ¼½ºÆ® : " << artist << endl << endl;
-	}
-	void PrintNameNIndex()
-	{
-		cout << "\t°î¸í : " << name << endl;
-		cout << "\tIndex : " << Index << endl << endl;
-	}
 
 };
 

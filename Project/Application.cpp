@@ -126,13 +126,13 @@ int Application::AddMusic()
 	{
 		if (Miter.GetCurrentNode().data == item)
 		{
-			mgitem.setIndex(Miter.GetCurrentNode().data.GetNum());
+			MusicType* tempmptr = Miter.GetCurrentPtr();
+			mgitem.setPtr(tempmptr);
 		}
 		Miter.Next();
 	}
-	mgitem.setName(item.GetName());
-	mgitem.setPkey(item.GetPkey());
-	mgitem.setArtist(item.GetSinger());
+
+	
 	mg_List.Add(mgitem);
 
 	//최근 추가목록에 추가하기
@@ -182,11 +182,29 @@ void Application::Delete()
 	MusicType data;	//Delete함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
 	data.SetNumFromKB();	//사용자에게서 곡 번호를 입력받는다.
 	SearchByIndex(data);
-
-	if (m_List.Delete(data))	//Delete함수에 data를 넘겨준다.
+	/*DoublyIter<MusicType> Miter(m_List);
+	if (data.GetNum() < 1 || data.GetNum() > m_List.GetLength())
+		return;
+	for (int i = 1; i < data.GetNum(); i++) {
+		Miter.Next();
+		
+	}*/
+	//data = Miter.GetCurrentNode().data;
+	if (m_List.Delete(data))
 	{
 		cout << "\t삭제를 완료했습니다." << endl;	//삭제에 성공했으면 메시지를 출력한다.
 		RemakeSubList();		//MusicList에 변화가 생겼으므로 하위 리스트들을 다시 만들어줘야 한다.
+		
+		DoublyIter2<ManageType> Mgiter(mg_List);
+		while (Mgiter.NotNull())
+		{
+			if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
+			{
+				ManageType* mgptr = Mgiter.GetCurrentPtr();
+				mgptr->Deleted();
+			}
+			Mgiter.Next();
+		}
 		if (m_List.GetLength() != 0)		//길이가 0이면 인덱스를 부여할수 없다.
 		{
 			SetMusicIndex();//MusicList에 변화가 생겼으므로 Index를 다시 부여한다.
@@ -213,13 +231,14 @@ void Application::Update()
 	}
 	else	//찾을 수 있을때
 	{
-		data.SetNameFromKB(); //사용자에게서 곡명을 입력받는다.
-		data.SetSingerFromKB();	//사용자에게서 가수를 입력받는다.
-		data.SetAlbumFromKB();	//사용자에게서 앨범을 입력받는다.
-		data.SetGenreFromKB();  //사용자에게서 장르를 입력받는다.
-		data.SetLyricsFromKB(); // 사용자에게서 가사를 입력받는다.
+		
 		if (m_List.Delete(data))//기존 항목을 삭제하고
 		{
+			data.SetNameFromKB(); //사용자에게서 곡명을 입력받는다.
+			data.SetSingerFromKB();	//사용자에게서 가수를 입력받는다.
+			data.SetAlbumFromKB();	//사용자에게서 앨범을 입력받는다.
+			data.SetGenreFromKB();  //사용자에게서 장르를 입력받는다.
+			data.SetLyricsFromKB(); // 사용자에게서 가사를 입력받는다.
 			data.SetPkey();	//데이터를 변경했으므로 Pkey를 다시 지정해준다.
 			m_List.Add(data);
 			cout << "\t수정을 완료했습니다." << endl;	//수정을 성공했을 때 메시지를 출력한다.
@@ -694,7 +713,10 @@ void Application::SearchByIndex(MusicType &indata)
 	while (Miter.NotNull())
 	{
 		if (Index == Miter.GetCurrentNode().data.GetNum())
-			Miter.GetCurrentNode().data.DisplayRecordOnScreen();
+		{
+			indata = Miter.GetCurrentNode().data;
+			//Miter.GetCurrentNode().data.DisplayRecordOnScreen();
+		}
 		Miter.Next();
 	}
 
