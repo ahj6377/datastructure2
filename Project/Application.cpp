@@ -182,6 +182,16 @@ void Application::Delete()
 	MusicType data;	//Delete함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
 	data.SetNumFromKB();	//사용자에게서 곡 번호를 입력받는다.
 	SearchByIndex(data);
+	DoublyIter2<ManageType> Mgiter(mg_List);
+	while (Mgiter.NotNull())
+	{
+		if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
+		{
+			ManageType* mgptr = Mgiter.GetCurrentPtr();
+			mgptr->Deleted();
+		}
+		Mgiter.Next();
+	}
 	/*DoublyIter<MusicType> Miter(m_List);
 	if (data.GetNum() < 1 || data.GetNum() > m_List.GetLength())
 		return;
@@ -195,16 +205,8 @@ void Application::Delete()
 		cout << "\t삭제를 완료했습니다." << endl;	//삭제에 성공했으면 메시지를 출력한다.
 		RemakeSubList();		//MusicList에 변화가 생겼으므로 하위 리스트들을 다시 만들어줘야 한다.
 		
-		DoublyIter2<ManageType> Mgiter(mg_List);
-		while (Mgiter.NotNull())
-		{
-			if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
-			{
-				ManageType* mgptr = Mgiter.GetCurrentPtr();
-				mgptr->Deleted();
-			}
-			Mgiter.Next();
-		}
+		
+	
 		if (m_List.GetLength() != 0)		//길이가 0이면 인덱스를 부여할수 없다.
 		{
 			SetMusicIndex();//MusicList에 변화가 생겼으므로 Index를 다시 부여한다.

@@ -288,7 +288,7 @@ int SortedLinkedList<T>::Delete(T& data)
 	int positionIndex = Get(data);
 	if (positionIndex)
 	{
-		for (int i = 1; i < positionIndex; i++)
+		for (int i = 1; i <= positionIndex; i++)
 			pNode = pNode->next;
 
 		if (pNode->next != NULL)
