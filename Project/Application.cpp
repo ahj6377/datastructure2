@@ -59,6 +59,9 @@ void Application::Run()
 		case 22:
 			PrintPL();
 			break;
+		case 30:
+			Play();
+			break;
 		case 98:
 			ReadDataFromFile();
 			break;
@@ -245,6 +248,31 @@ void Application::Update()
 			data.SetPkey();	//데이터를 변경했으므로 Pkey를 다시 지정해준다.
 			m_List.Add(data);
 			cout << "\t수정을 완료했습니다." << endl;	//수정을 성공했을 때 메시지를 출력한다.
+			DoublyIter<MusicType> Miter(m_List);
+			while (Miter.NotNull())
+			{
+				if (Miter.GetCurrentNode().data == data)
+				{
+					MusicType* mptr;
+					mptr = Miter.GetCurrentPtr();
+					DoublyIter2<ManageType> Mgiter(mg_List);
+					while (Mgiter.NotNull())
+					{
+						if (Mgiter.GetCurrentNode().data.getPkey() == data.GetPkey())
+						{
+							ManageType* mgptr;
+							mgptr = Mgiter.GetCurrentPtr();
+							mgptr->setPtr(mptr);
+
+						}
+						Mgiter.Next();
+					}
+
+				}
+				Miter.Next();
+			}
+
+
 			RemakeSubList();		//MusicList에 변화가 생겼으므로 하위 리스트들을 다시 만들어줘야 한다.
 			if (m_List.GetLength() != 0)		//길이가 0이면 인덱스를 부여할수 없다.
 			{
@@ -476,10 +504,11 @@ void Application::DIsplayNewMusic()
 	DoublyIter2<ManageType> Mgiter(mg_List);
 	Mgiter.Last();
 
-	cout << "이 아래로 터지는 이유를 찾아야함" << endl;
 	while (Mgiter.NotNull() && cnt < 30)
 	{
-		Mgiter.GetCurrentNode().data.PrintNameNIndex();
+		NodeType2<ManageType>  temp1 = Mgiter.GetCurrentNode();
+		ManageType temp2 = temp1.data;
+		temp2.PrintNameNIndex();
 		Mgiter.Prev();
 		cnt++;
 	}
@@ -531,8 +560,9 @@ void Application::DisplayMusicbyGenre()
 
 			if (thisGenre == Miter2.GetCurrentNode().data.GetGenre())
 			{
-				cout << "트랙넘버 : " << Miter2.GetCurrentNode().data.GetName() << endl;
+				
 				cout << "곡명 : " << Miter2.GetCurrentNode().data.GetName() << endl;
+				cout << "Index : " << Miter2.GetCurrentNode().data.GetNum() << endl;
 			}
 			Miter2.Next();
 		}
@@ -615,8 +645,9 @@ void Application::DisplayMusicByAlbum()
 
 			if (Miter2.GetCurrentNode().data.GetAlbum() == Abiter.GetCurrentNode().data.GetAlbumName() && Miter2.GetCurrentNode().data.GetSinger() == Abiter.GetCurrentNode().data.GetArtistName())
 			{
-				cout << "\t트랙넘버 : " << Miter2.GetCurrentNode().data.GetName() << endl;
 				cout << "\t곡명 : " << Miter2.GetCurrentNode().data.GetName() << endl;
+				cout << "\tIndex : " << Miter2.GetCurrentNode().data.GetNum() << endl;
+				
 
 			}
 			Miter2.Next();
@@ -804,6 +835,7 @@ void Application::PrintPL()
 		{
 			ptr = PLiter2.GetCurrentPtr();
 			ptr->Printall();
+		
 			while (1)
 			{
 				int temp;
@@ -811,11 +843,69 @@ void Application::PrintPL()
 				cin >> temp;
 				if (temp == 0)
 					break;
+				Play(temp);
 			}
+			
 		}
 		PLiter2.Next();
 	}
 
 
 
+}
+
+void Application::Play()
+{
+	if (RemakeListForPlay == true)		//곡 리스트에 변경이 생겼을 경우 ListForPlay를 다시 만들어준다
+	{
+		delete[] ListforPlay;
+		int length = m_List.GetLength();
+		ListforPlay = new MusicType*[length];
+		DoublyIter<MusicType> Miter(m_List);
+		for (int i = 0; i < length; i++)
+		{
+			ListforPlay[i] = Miter.GetCurrentPtr();
+			Miter.Next();
+		}
+		RemakeListForPlay = false;
+	}
+	cout << "재생할 곡의 Index를 입력해주세요. " << endl;
+	int cmdIndex;
+	cin >> cmdIndex;
+	if (cmdIndex < 0)
+		return;
+	if (cmdIndex > m_List.GetLength())
+	{
+		cout << "잘못된 입력입니다" << endl;
+		return;
+	}
+	ListforPlay[cmdIndex - 1]->cntPlayed();
+	ListforPlay[cmdIndex - 1]->DisplayNameOnScreen();
+	ListforPlay[cmdIndex - 1]->DisplaySingerOnScreen();
+	cout << "\t재생 횟수 : " << ListforPlay[cmdIndex - 1]->DisplayPlayed() << endl;
+}
+
+void Application::Play(int Index)
+{
+	if (RemakeListForPlay == true)		//곡 리스트에 변경이 생겼을 경우 ListForPlay를 다시 만들어준다
+	{
+		delete[] ListforPlay;
+		int length = m_List.GetLength();
+		ListforPlay = new MusicType*[length];
+		DoublyIter<MusicType> Miter(m_List);
+		for (int i = 0; i < length; i++)
+		{
+			ListforPlay[i] = Miter.GetCurrentPtr();
+			Miter.Next();
+		}
+		RemakeListForPlay = false;
+	}
+	int cmdIndex = Index;
+
+		ListforPlay[cmdIndex - 1]->cntPlayed();
+		ListforPlay[cmdIndex - 1]->DisplayNameOnScreen();
+		ListforPlay[cmdIndex - 1]->DisplaySingerOnScreen();
+		cout << "\t재생 횟수 : " << ListforPlay[cmdIndex - 1]->DisplayPlayed() << endl;
+
+	
 }

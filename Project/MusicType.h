@@ -28,6 +28,7 @@ public:
 		Album = "";
 		Genre = "";
 		Lyrics = "";
+		Played = 0;
 	}
 
 	/**
@@ -221,7 +222,7 @@ public:
 	*/
 	void DisplaySingerOnScreen()
 	{
-		cout << "\tSinger : " << Singer << endl;
+		cout << "\tArtist(Singer) : " << Singer << endl;
 	};
 
 	/**
@@ -369,7 +370,14 @@ public:
 
 	}
 
-	
+	void cntPlayed()
+	{
+		Played++;
+	}
+	int DisplayPlayed()
+	{
+		return Played;
+	}
 protected:
 	int Num;		//°îÀÇ ÀÎµ¦½º
 	string Name; //°î¸í
@@ -378,6 +386,7 @@ protected:
 	string Genre; //Àå¸£
 	string Lyrics; //°¡»ç
 	string Pkey; //Primary Key
+	int Played;	//Àç»ýµÈ È½¼ö
 };
 
 

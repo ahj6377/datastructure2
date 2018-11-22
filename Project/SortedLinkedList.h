@@ -288,7 +288,7 @@ int SortedLinkedList<T>::Delete(T& data)
 	int positionIndex = Get(data);
 	if (positionIndex)
 	{
-		for (int i = 1; i <= positionIndex; i++)
+		for (int i = 1; i < positionIndex; i++)
 			pNode = pNode->next;
 
 		if (pNode->next != NULL)
@@ -349,6 +349,7 @@ int SortedLinkedList<T>::Replace(T& data)
 template<typename T>
 int SortedLinkedList<T>::Get(T& data)
 {
+	/*
 	bool MoreToSearch, found;
 	NodeType<T>* location;
 
@@ -377,7 +378,30 @@ int SortedLinkedList<T>::Get(T& data)
 	{
 		return 0;
 	}
+	*/
+	DoublyIter<T> iter(*this);
+	int count = 0;	// 몇 번째에 위치하고 있는지 리턴 (없으면 0)
+					// iterator를 사용하면서 curPointer를 재사용할 수 없으므로 return value의 의미를 변경
+	bool found = false;
+	while (iter.NotNull())
+	{
+		count++;
+		if (data == iter.GetCurrentNode().data)
+		{
+			found = true;
+			data = iter.GetCurrentNode().data;
+			break;
+		}
+		else if (data < iter.GetCurrentNode().data)
+			break;
+		else
+			iter.Next();
+	}
 
+	if (found)
+		return count;
+	else
+		return 0;
 
 
 }

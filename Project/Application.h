@@ -34,6 +34,7 @@ public:
 		RemakeAlbumList = true;
 		RemakeArtistList = true;
 		RemakeGenreList = true;
+		RemakeListForPlay = true;
 		NumofPL = 0;
 
 	}
@@ -283,6 +284,7 @@ public:
 		RemakeAlbumList = true;
 		RemakeArtistList = true;
 		RemakeGenreList = true;
+		RemakeListForPlay = true;
 	};
 
 	void makePlayList();
@@ -290,6 +292,11 @@ public:
 	void AddMusicInPL();
 
 	void PrintPL();
+	
+
+	void Play();
+
+	void Play(int Index);
 	
 private:
 	ifstream m_InFile;		///< input file descriptor.
@@ -302,9 +309,11 @@ private:
 	SortedLinkedList <string> GenreList;		//장르를 분류하기 위한 장르 리스트
 	UnSortedLinkedList<PLType> PlayLists;
 	//아래의 변수들은 각 하위 리스트를 다시만들어야 할지 판별하는 변수이다.
+	MusicType** ListforPlay;
 	bool RemakeAlbumList;			
 	bool RemakeArtistList;
 	bool RemakeGenreList;
+	bool RemakeListForPlay;
 	int NumofPL;
 };
 
