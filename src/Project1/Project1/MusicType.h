@@ -378,6 +378,11 @@ public:
 	{
 		return Played;
 	}
+	void DisplayNameNIndex()
+	{
+		cout << "°î¸í : " << Name << endl;
+		cout << "TrackNo. : " << Num << endl;
+	}
 protected:
 	int Num;		//°îÀÇ ÀÎµ¦½º
 	string Name; //°î¸í

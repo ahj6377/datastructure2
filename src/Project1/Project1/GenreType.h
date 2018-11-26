@@ -2,7 +2,8 @@
 #include<iostream>
 #include<string>
 #include"SortedLinkedList.h"
-
+#include"UnSortedLinkedList.h"
+#include"MusicType.h"
 using namespace std;
 /**
 *	@brief	과제 1에서 이 클래스는 쓰이지 않는다.
@@ -13,7 +14,7 @@ class GenreType			//현재 이 장르타입은 쓰지 않는다.
 public:
 	GenreType()
 	{
-		G_num = -1;
+		
 		G_name = "";
 	}	//기본 생성자
 
@@ -32,26 +33,7 @@ public:
 	{
 		return G_name;
 	}
-	/**
-	*	@brief	Get song Number
-	*	@pre	song Name is set.
-	*	@post	none.
-	*	@return	song number
-*/
-	int GetNum()
-	{
-		return G_num;
-	}
-	/**
-	*	@brief	set song number
-	*	@pre	x
-	*	@post	song number is set
-	*	@param num song number
-*/
-	void SetNum(int num)
-	{
-		G_num = num;
-	}
+
 	/**
 	*	@brief	set genre
 	*	@pre	x
@@ -72,7 +54,7 @@ public:
 	bool operator==(GenreType data)
 	{
 
-		if (this->GetNum() == data.GetNum())
+		if (this->GetGenre() == data.GetGenre())
 			return true;
 		else
 			return false;
@@ -87,7 +69,7 @@ public:
 */
 	bool operator>(GenreType data)
 	{
-		if (this->GetNum() > data.GetNum())
+		if (this->GetGenre() > data.GetGenre())
 			return true;
 		else
 			return false;
@@ -101,7 +83,7 @@ public:
 */
 	bool operator<(GenreType data)
 	{
-		if (this->GetNum() < data.GetNum())
+		if (this->GetGenre() < data.GetGenre())
 			return true;
 		else
 			return false;
@@ -113,28 +95,22 @@ public:
 *	@post	현재 GenreList에 Simplified 타입이 추가된다
 *	@param	추가하고자 하는 데이터
 */
-	void addListinGenre()
+	void addListinList(MusicType* in)
 	{
-		
+		G_List.Add(in);
 	}
 	/**
 *	@brief	현 GenreList안의 모든 데이터를 출력하는함수
 *	@pre	GenreList안의 원소가 초기화 되어있어야함
 *	@post	x
 */
-	void PrintAll()
-	{
-		
+	void PrintAll();
 
-		
-		
-	}
-
-
+	GenreType operator=(const GenreType& data);
 
 
 private:
-	int G_num;	//장르 넘버 = Primary Key
-	string G_name; //장르 명
 
+	string G_name; //장르 명
+	UnSortedLinkedList<MusicType*> G_List;
 };

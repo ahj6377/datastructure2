@@ -2,7 +2,8 @@
 #include<string>
 using namespace std;
 #include"SortedLinkedList.h"
-
+#include"MusicType.h"
+#include"UnSortedLinkedList.h"
 class AlbumType {
 public:
 
@@ -113,8 +114,16 @@ public:
 		else
 			return false;
 	};
+
+	AlbumType operator=(const AlbumType& D);
+
+	void AddListinList(MusicType* in);
+
+	void Printall();
+
+
 private:
 	string AlbumName; //앨범 이름을 저장할 변수
 	string ArtistName; //앨범의 아티스트를 저장할 변수
-
+	UnSortedLinkedList<MusicType*> Ab_List;
 };

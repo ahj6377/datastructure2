@@ -185,6 +185,7 @@ void Application::DisplayAllMusic()
 //찾을 ID를 사용자에게 입력받고 SortedList의 Delete함수를 호출한다.
 void Application::Delete()
 {
+	DisplayAllMusic();
 	cout << "\t지울 : ";
 	MusicType data;	//Delete함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
 	data.SetNumFromKB();	//사용자에게서 곡 번호를 입력받는다.
@@ -245,6 +246,7 @@ void Application::Delete()
 //찾을 ID를 사용자에게 입력받고 SortedList의 Update함수를 호출한다.
 void Application::Update()
 {
+	DisplayAllMusic();
 	cout << "\t변경을 원하는 항목의 ";
 	MusicType data;	//Replace함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
 	data.SetNumFromKB();	//사용자에게서 수정할 항목의 곡 번호를 입력받는다.
@@ -560,34 +562,40 @@ void Application::DisplayMusicbyGenre()
 		DoublyIter<MusicType> Miter(m_List);
 		while (Miter.NotNull())
 		{
-			string thisGenre;
-			thisGenre = Miter.GetCurrentNode().data.GetGenre();
+			GenreType thisGenre;
+			thisGenre.SetGenre(Miter.GetCurrentNode().data.GetGenre());
 			GenreList.Add(thisGenre);
 			Miter.Next();
 		}		//이 반복문이 끝나면 장르리스트에 장르가 정렬되어 들어감
+		DoublyIter<MusicType> Miter2(m_List);
+		while (Miter2.NotNull())
+		{
+			DoublyIter<GenreType> Giter(GenreList);
+			while (Giter.NotNull())
+			{
+				if (Giter.GetCurrentNode().data.GetGenre() == Miter2.GetCurrentNode().data.GetGenre())
+				{
+					MusicType* mptr;
+					mptr = Miter2.GetCurrentPtr();
+					GenreType* gptr;
+					gptr = Giter.GetCurrentPtr();
+					gptr->addListinList(mptr);
+				}
+				Giter.Next();
+			}
+			Miter2.Next();
+		}//여기까지 분류된 genretype의 리스트인리스트에 Musictype*이 추가된다.
+
 	}
+	
 	RemakeGenreList = false;			//리스트를 다시 만들었으므로 변경이 없으면 다시 만들필요가 없다
 
 	//아래는 출력하는 코드
-	DoublyIter<string> Giter(GenreList);
-	string thisGenre;
+	DoublyIter<GenreType> Giter(GenreList);
+
 	while (Giter.NotNull())
 	{
-		thisGenre = Giter.GetCurrentNode().data;
-		DoublyIter<MusicType> Miter2(m_List);
-		cout << "\t장르 : " << Miter2.GetCurrentNode().data.GetGenre() << endl;
-		while (Miter2.NotNull())
-		{
-
-			if (thisGenre == Miter2.GetCurrentNode().data.GetGenre())
-			{
-				
-				cout << "곡명 : " << Miter2.GetCurrentNode().data.GetName() << endl;
-				cout << "Index : " << Miter2.GetCurrentNode().data.GetNum() << endl;
-			}
-			Miter2.Next();
-		}
-		cout << "\t -------------------------" << endl;
+		Giter.GetCurrentNode().data.PrintAll();
 		Giter.Next();
 	}
 
