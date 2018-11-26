@@ -40,8 +40,15 @@ public:
 	{	if(Isdeleted == false)
 		return mptr->GetPkey();
 	}
-	void PrintNameNIndex();
+	bool PrintNameNIndex();
 
+	bool operator==(const ManageType& data)
+	{
+		if (mptr == data.mptr && Isdeleted == false)
+			return true;
+		else
+			return false;
+	}
 
 };
 

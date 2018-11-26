@@ -1,7 +1,6 @@
 #pragma once
 #include<string>
 using namespace std;
-#include"SimplifiedType.h"
 #include"SortedLinkedList.h"
 
 class AlbumType {

@@ -59,6 +59,9 @@ void Application::Run()
 		case 22:
 			PrintPL();
 			break;
+		case 23:
+			DisplayRecentlyPlayedMusic();
+			break;
 		case 30:
 			Play();
 			break;
@@ -99,6 +102,7 @@ int Application::GetCommand()
 	cout << "\t   20 : 재생목록 만들기" << endl;
 	cout << "\t   21 : 재생목록에 추가하기" << endl;
 	cout << "\t   22 : 재생목록 보기" << endl;
+	cout << "\t   23 : 최근 재생한 목록 보기" << endl;
 	cout << "\t   30 : 재생하기" << endl;
 	cout << "\t   98 : Get from file" << endl;
 	cout << "\t   99 : Put to file " << endl;
@@ -118,7 +122,7 @@ int Application::AddMusic()
 	string genre;	//장르를 저장할 임시변수
 	string name;	//곡명을 저장할 임시변수
 	MusicType item;
-	SimplifiedType Simpletype;	//곡번호, 곡명만 저장할 타입
+
 	item.SetInfoFromKB();
 	m_List.Add(item);		//MusicList에 원소 추가
 	RemakeSubList();		//MusicList에 변화가 생겼으므로 하위 리스트들을 다시 만들어줘야 한다.
@@ -192,6 +196,21 @@ void Application::Delete()
 		if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
 		{
 			mgptr = Mgiter.GetCurrentPtr();
+			//여기서부터 새로 추가된 코드
+			MusicType* tempmptr;
+			tempmptr = mgptr->getPtr();
+			DoublyIter2<ManageType> Mgiter2(RecentlyPlayedList);
+			while (Mgiter2.NotNull())
+			{
+				MusicType* thismptr = Mgiter2.GetCurrentNode().data.getPtr();
+				if (tempmptr == thismptr)
+				{
+					ManageType* mgtempptr = Mgiter2.GetCurrentPtr();
+					mgtempptr->Deleted();
+				}
+				Mgiter2.Next();
+			}
+			//여기까지
 			mgptr->Deleted();
 		}
 		Mgiter.Next();
@@ -506,11 +525,13 @@ void Application::DIsplayNewMusic()
 
 	while (Mgiter.NotNull() && cnt < 30)
 	{
+		bool Printed = true;
 		NodeType2<ManageType>  temp1 = Mgiter.GetCurrentNode();
 		ManageType temp2 = temp1.data;
-		temp2.PrintNameNIndex();
+		Printed = temp2.PrintNameNIndex();
 		Mgiter.Prev();
-		cnt++;
+		if(Printed == true)
+			cnt++;
 	}
 
 
@@ -883,6 +904,7 @@ void Application::Play()
 	ListforPlay[cmdIndex - 1]->DisplayNameOnScreen();
 	ListforPlay[cmdIndex - 1]->DisplaySingerOnScreen();
 	cout << "\t재생 횟수 : " << ListforPlay[cmdIndex - 1]->DisplayPlayed() << endl;
+	AddRecentlyPlayedList(ListforPlay[cmdIndex-1]);
 }
 
 void Application::Play(int Index)
@@ -906,6 +928,33 @@ void Application::Play(int Index)
 		ListforPlay[cmdIndex - 1]->DisplayNameOnScreen();
 		ListforPlay[cmdIndex - 1]->DisplaySingerOnScreen();
 		cout << "\t재생 횟수 : " << ListforPlay[cmdIndex - 1]->DisplayPlayed() << endl;
-
+		AddRecentlyPlayedList(ListforPlay[Index-1]);
 	
+}
+
+void Application::AddRecentlyPlayedList(MusicType* mptr)
+{
+	ManageType mg;
+	mg.setPtr(mptr);
+	
+	RecentlyPlayedList.Delete(mg);
+	RecentlyPlayedList.Add(mg);
+
+}
+void Application::DisplayRecentlyPlayedMusic()
+{
+	int i = 0;
+	DoublyIter2<ManageType> mgiter(RecentlyPlayedList);
+	mgiter.Last();
+	bool Printed = true;
+	while (mgiter.NotNull() && i < 30)
+	{
+		Printed = mgiter.GetCurrentNode().data.PrintNameNIndex();
+		if (Printed == true)
+			i++;
+		mgiter.Prev();
+
+	}
+
+
 }

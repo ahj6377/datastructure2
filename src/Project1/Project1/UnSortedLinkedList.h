@@ -204,6 +204,7 @@ int UnSortedLinkedList<T>::Add(T &data)
 template<typename T>
 int UnSortedLinkedList<T>::Delete(T& data)
 {
+	/*
 	bool MoreToSearch, found;
 	NodeType2<T> *Pre = NULL;
 	DoublyIter2<T> iter(*this);
@@ -253,7 +254,31 @@ int UnSortedLinkedList<T>::Delete(T& data)
 	else    //못 찾으면	
 		return 0;
 
+		*/
 
+	NodeType2<T>* pNode = m_pList;
+	int positionIndex = Get(data);
+	if (positionIndex)
+	{
+		for (int i = 1; i < positionIndex; i++)
+			pNode = pNode->next;
+
+		if (pNode->next != NULL)
+			pNode->next->pre = pNode->pre;
+		else
+			m_pLast = pNode->pre;
+
+		if (pNode->pre != NULL)
+			pNode->pre->next = pNode->next;
+		else
+			m_pList = pNode->next;
+
+		delete pNode;
+		m_nLength--;
+		return 1;
+	}
+	else
+		return 0;
 
 }
 
@@ -296,6 +321,7 @@ int UnSortedLinkedList<T>::Replace(T& data)
 template<typename T>
 int UnSortedLinkedList<T>::Get(T& data)
 {
+	/*
 	bool MoreToSearch, found;
 	NodeType2<T>* location;
 
@@ -325,7 +351,34 @@ int UnSortedLinkedList<T>::Get(T& data)
 		return 0;
 	}
 
+	*/
 
+	DoublyIter2<T> iter(*this);
+	int count = 0;	// 몇 번째에 위치하고 있는지 리턴 (없으면 0)
+					// iterator를 사용하면서 curPointer를 재사용할 수 없으므로 return value의 의미를 변경
+	bool found = false;
+	while (iter.NotNull())
+	{
+		count++;
+		if (data == iter.GetCurrentNode().data)
+		{
+			found = true;
+			data = iter.GetCurrentNode().data;
+			break;
+		}
+		
+		else
+		{
+			iter.Next();
+			if (count > m_nLength)
+				break;
+		}
+	}
+
+	if (found)
+		return count;
+	else
+		return 0;
 
 }
 

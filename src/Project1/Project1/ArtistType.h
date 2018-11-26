@@ -1,5 +1,6 @@
 #pragma once
 #include"AlbumType.h"
+#include<iostream>
 using namespace std;
 
 class ArtistType {

@@ -2,7 +2,7 @@
 #include<iostream>
 #include<string>
 #include"SortedLinkedList.h"
-#include"SimplifiedType.h"
+
 using namespace std;
 /**
 *	@brief	과제 1에서 이 클래스는 쓰이지 않는다.
@@ -113,9 +113,9 @@ public:
 *	@post	현재 GenreList에 Simplified 타입이 추가된다
 *	@param	추가하고자 하는 데이터
 */
-	void addListinGenre(SimplifiedType in)
+	void addListinGenre()
 	{
-		G_List.Add(in);
+		
 	}
 	/**
 *	@brief	현 GenreList안의 모든 데이터를 출력하는함수
@@ -136,5 +136,5 @@ public:
 private:
 	int G_num;	//장르 넘버 = Primary Key
 	string G_name; //장르 명
-	SortedLinkedList<SimplifiedType> G_List;	//각 장르별 장르리스트
+
 };
