@@ -105,6 +105,8 @@ public:
 	{
 		AlbumList.MakeEmpty();
 	}
+	void SearchInListbyGenre();
+	
 private:
 	SortedLinkedList<AlbumType> AlbumList;		//한 아티스트가 가지는 앨범 리스트
 	string ArtistName;

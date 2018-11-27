@@ -598,9 +598,42 @@ void Application::DisplayMusicbyGenre()
 		Giter.GetCurrentNode().data.PrintAll();
 		Giter.Next();
 	}
+	string str;
+	cout << "보고싶은 장르를 입력해주세요" << endl;
+	cin >> str;
+	Giter.First();
 
+	GenreType* gptr;
+	while (Giter.NotNull())
+	{
+		if (Giter.GetCurrentNode().data.GetGenre() == str)
+		{
+			gptr = Giter.GetCurrentPtr();
+			int a = 1;
+			while (a)
+			{
+				cout << "\t 1. 장르리스트 내에서 앨범으로 검색" << endl;
+				cout << "\t 2. 장르리스트 내에서 아티스트로 검색" << endl;
+				cout << "\t 0. 나가기" << endl;
+				
+				cin >> a;
+				switch (a)
+				{
+				case 1:
+					gptr->SearchInListbyAlbum();
+					break;
+				case 2:
+					gptr->SearchInListbyArtist();
+					break;
+				case 0:
+					
+					break;
+				}
 
-
+			}
+		}
+		Giter.Next();
+	}
 }
 
 
@@ -694,9 +727,21 @@ void Application::DisplayMusicByAlbum()
 		thisAlbum.Printall();
 		Abiter.Next();
 	}
-
-
-
+	cout << "보고싶은 앨범명 : " << endl;
+	string str;
+	cin >> str;
+	Abiter.First();
+	while (Abiter.NotNull())
+	{	
+		AlbumType* aptr;
+		if (str == Abiter.GetCurrentNode().data.GetAlbumName())
+		{
+			aptr = Abiter.GetCurrentPtr();
+			aptr->SearchInListbyGenre();
+		}
+		Abiter.Next();
+		
+	}
 
 
 

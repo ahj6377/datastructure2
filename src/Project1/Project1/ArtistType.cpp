@@ -21,3 +21,19 @@ ArtistType::ArtistType(const ArtistType& data)
 	AlbumList = data.AlbumList;
 
 }
+
+void ArtistType::SearchInListbyGenre()
+{
+
+	DoublyIter<AlbumType> Abiter(AlbumList);
+	while (Abiter.NotNull())
+	{
+		AlbumType* ptr;
+		ptr = Abiter.GetCurrentPtr();
+		
+
+		Abiter.Next();
+	}
+
+
+}

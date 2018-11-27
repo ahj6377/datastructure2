@@ -110,6 +110,11 @@ public:
 */
 	void PrintAll();
 
+	void SearchInListbyAlbum();
+
+	void SearchInListbyArtist();
+
+
 	GenreType operator=(const GenreType& data);
 
 

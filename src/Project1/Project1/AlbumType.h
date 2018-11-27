@@ -123,8 +123,8 @@ public:
 	void AddListinList(MusicType* in);
 
 	void Printall();
-
-
+	
+	void SearchInListbyGenre();
 private:
 	string AlbumName; //앨범 이름을 저장할 변수
 	string ArtistName; //앨범의 아티스트를 저장할 변수
