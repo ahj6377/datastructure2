@@ -14,10 +14,13 @@ void AlbumType::AddListinList(MusicType* in)
 
 void AlbumType::Printall()
 {
+	cout << "\t앨범명 : " << AlbumName << endl;
+	cout << "\t아티스트명 : " << ArtistName << endl;
 	DoublyIter2<MusicType*> Mptriter(Ab_List);
 	while (Mptriter.NotNull())
 	{
 		Mptriter.GetCurrentNode().data->DisplayNameNIndex();
 		Mptriter.Next();
 	}
+	cout << "\t ---------------------------------" << endl;
 }

@@ -89,7 +89,7 @@ public:
 	*	@post	x
 	*	@return 비었으면 1, 아니면 0
 	*/
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		if (m_nLength == 0)
 			return true;
@@ -455,11 +455,43 @@ SortedLinkedList<T>::SortedLinkedList(const SortedLinkedList<T>& anotherList)
 template<typename T>
 SortedLinkedList<T> SortedLinkedList<T>::operator=(const SortedLinkedList<T> &anotherList)
 {
+	/*
 	MakeEmpty();
 	SortedLinkedList<T> temp(anotherList);
 	
 	return temp;
+	*/
+	NodeType<T> *m_pCurPointer;
+	m_pList = NULL;
+	m_pCurPointer = NULL;
+	if (anotherList.m_pList == NULL)
+		return *this;
+	else {
+		this->m_nLength = anotherList.m_nLength;
 
+		NodeType<T> *Node1 = new NodeType<T>;
+		NodeType<T> *preNode;
+		NodeType<T> *Node2;
+		m_pList = Node1;
+		Node1->data = anotherList.m_pList->data;
+		Node1->pre = NULL;
+		Node2 = anotherList.m_pList->next;
+
+		while (Node2 != NULL)
+		{
+			Node1->next = new NodeType<T>;
+			preNode = Node1;
+			Node1 = Node1->next;
+			Node1->data = Node2->data;
+			Node1->pre = preNode;
+			Node2 = Node2->next;
+
+
+		}
+		Node1->next = NULL;
+
+	}
+	return *this;
 }
 
 

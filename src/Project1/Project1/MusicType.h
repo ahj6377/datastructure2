@@ -380,8 +380,8 @@ public:
 	}
 	void DisplayNameNIndex()
 	{
-		cout << "°î¸í : " << Name << endl;
-		cout << "TrackNo. : " << Num << endl;
+		cout << "\t°î¸í : " << Name << endl;
+		cout << "\tTrackNo. : " << Num << endl;
 	}
 protected:
 	int Num;		//°îÀÇ ÀÎµ¦½º

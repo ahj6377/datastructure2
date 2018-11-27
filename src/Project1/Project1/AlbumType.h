@@ -28,11 +28,14 @@ public:
 		AlbumName = albumname;
 		ArtistName = artistname;
 	}
+	
 	AlbumType(const AlbumType& data)
 	{
 		AlbumName = data.AlbumName;
 		ArtistName = data.ArtistName;
+		Ab_List = data.Ab_List;
 	}
+	
 	/**
 *	@brief AlbumName ¿ª set«—¥Ÿ.
 *	@pre	x

@@ -431,11 +431,43 @@ UnSortedLinkedList<T>::UnSortedLinkedList(const UnSortedLinkedList<T>& anotherLi
 template<typename T>
 UnSortedLinkedList<T> UnSortedLinkedList<T>::operator=(const UnSortedLinkedList<T> &anotherList)
 {
+	/*
 	MakeEmpty();
 	UnSortedLinkedList<T> temp(anotherList);
 
 	return temp;
+	*/
+	NodeType2<T> *m_pCurPointer;
+	m_pList = NULL;
+	m_pCurPointer = NULL;
+	if (anotherList.m_pList == NULL)
+		return *this;
+	else {
+		this->m_nLength = anotherList.m_nLength;
 
+		NodeType2<T> *Node1 = new NodeType2<T>;
+		NodeType2<T> *preNode;
+		NodeType2<T> *Node2;
+		m_pList = Node1;
+		Node1->data = anotherList.m_pList->data;
+		Node1->pre = NULL;
+		Node2 = anotherList.m_pList->next;
+
+		while (Node2 != NULL)
+		{
+			Node1->next = new NodeType2<T>;
+			preNode = Node1;
+			Node1 = Node1->next;
+			Node1->data = Node2->data;
+			Node1->pre = preNode;
+			Node2 = Node2->next;
+
+
+		}
+		Node1->next = NULL;
+
+	}
+	return *this;
 }
 
 

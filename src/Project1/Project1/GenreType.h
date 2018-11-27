@@ -22,7 +22,11 @@ public:
 	{
 	
 	} //±âº» ¼Ò¸êÀÚ
-
+	GenreType(const GenreType& data)
+	{
+		G_name = data.G_name;
+		G_List = data.G_List;
+	}
 	/**
 	*	@brief	Get Genre
 	*	@pre	Genre is set.

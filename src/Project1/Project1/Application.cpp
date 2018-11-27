@@ -657,8 +657,31 @@ void Application::DisplayMusicByAlbum()
 			AlbumType thisAlbum(Miter.GetCurrentNode().data.GetAlbum(), Miter.GetCurrentNode().data.GetSinger());
 			AlbumList.Add(thisAlbum);
 			Miter.Next();
+		}	//이까지 앨범만 정렬되어 들어간다.
+		DoublyIter<MusicType> Miter2(m_List);
+		while (Miter2.NotNull())
+		{
+			DoublyIter<AlbumType> Abiter(AlbumList);
+			while (Abiter.NotNull())
+			{
+				string Martist, Malbum,Aartist,Aalbum;
+				Martist = Miter2.GetCurrentNode().data.GetSinger();
+				Malbum = Miter2.GetCurrentNode().data.GetAlbum();
+				Aartist = Abiter.GetCurrentNode().data.GetArtistName();
+				Aalbum = Abiter.GetCurrentNode().data.GetAlbumName();
+				if(Martist == Aartist && Malbum == Aalbum)
+				{
+					MusicType* mptr = Miter2.GetCurrentPtr();
+					AlbumType* abptr = Abiter.GetCurrentPtr();
+					abptr->AddListinList(mptr);
+
+				}
+				Abiter.Next();
+			}//각 앨범타입에 Musictype의 포인터가 추가된다.
+			Miter2.Next();
 		}
-	}
+
+	}	//앨범이 정렬된다
 	RemakeAlbumList = false;		//리스트를 갱신했으므로 다시만들 필요가 없다.
 	//여기서부터는 출력코드
 
@@ -666,22 +689,9 @@ void Application::DisplayMusicByAlbum()
 	DoublyIter<AlbumType> Abiter(AlbumList);
 	while (Abiter.NotNull())
 	{
-		DoublyIter<MusicType> Miter2(m_List);
-		cout << "\t앨범명 : " << Abiter.GetCurrentNode().data.GetAlbumName() << endl;
-		cout << "\t아티스트명 : " << Abiter.GetCurrentNode().data.GetArtistName() << endl;
-		while (Miter2.NotNull())
-		{
-
-			if (Miter2.GetCurrentNode().data.GetAlbum() == Abiter.GetCurrentNode().data.GetAlbumName() && Miter2.GetCurrentNode().data.GetSinger() == Abiter.GetCurrentNode().data.GetArtistName())
-			{
-				cout << "\t곡명 : " << Miter2.GetCurrentNode().data.GetName() << endl;
-				cout << "\tIndex : " << Miter2.GetCurrentNode().data.GetNum() << endl;
-				
-
-			}
-			Miter2.Next();
-		}
-		cout << "\t-------------------------" << endl;
+		AlbumType thisAlbum;
+		thisAlbum = Abiter.GetCurrentNode().data;
+		thisAlbum.Printall();
 		Abiter.Next();
 	}
 
@@ -718,7 +728,28 @@ void Application::DisplayMusicByArtist()
 			Miter2.Next();
 		}
 		//AlbumList에 앨범추가됨
+		Miter2.First();
+		while (Miter2.NotNull())
+		{
+			DoublyIter<AlbumType> Abiter(AlbumList);
+			while (Abiter.NotNull())
+			{
+				string Martist, Malbum, Aartist, Aalbum;
+				Martist = Miter2.GetCurrentNode().data.GetSinger();
+				Malbum = Miter2.GetCurrentNode().data.GetAlbum();
+				Aartist = Abiter.GetCurrentNode().data.GetArtistName();
+				Aalbum = Abiter.GetCurrentNode().data.GetAlbumName();
+				if (Martist == Aartist && Malbum == Aalbum)
+				{
+					MusicType* mptr = Miter2.GetCurrentPtr();
+					AlbumType* abptr = Abiter.GetCurrentPtr();
+					abptr->AddListinList(mptr);
 
+				}
+				Abiter.Next();
+			}//각 앨범타입에 Musictype의 포인터가 추가된다.
+			Miter2.Next();
+		}
 		DoublyIter<AlbumType> Abiter(AlbumList);			//앨범을 해당 앨범과 같은 아티스트를 가진 아티스트 타입의 리스트에 추가한다.
 		while (Abiter.NotNull())
 		{

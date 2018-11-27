@@ -128,7 +128,7 @@ bool DoublyIter<T>::PrevNotNull()
 template <typename T>
 T DoublyIter<T>::First() {
 	if (!m_List.IsEmpty()) {
-		CurPointer = m_List.m_pFirst;
+		CurPointer = m_List.m_pList;
 		return CurPointer->data;
 	}
 }
