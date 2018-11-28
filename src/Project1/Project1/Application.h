@@ -286,20 +286,62 @@ public:
 		RemakeGenreList = true;
 		RemakeListForPlay = true;
 	};
-
+	/**
+*	@brief	재생목록을 만든다.
+*	@pre	x
+*	@post	PL_List에 새 재생목록이 추가된다.
+*	@param	x
+*	@return	x
+*/
 	void makePlayList();
-
+	/**
+*	@brief	재생목록안에 음악을 추가한다.
+*	@pre	x
+*	@post	재생목록안에 ManageType의 포인터가 추가된다.
+*	@param	x
+*	@return	x
+*/
 	void AddMusicInPL();
-
+	/**
+*	@brief	재생목록을 출력한다. 숫자를 입력받아 Play함수에 넘겨준다
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	void PrintPL();
 	
-
+	/**
+*	@brief	음악을 재생한다. 재생하면 재생횟수가 증가하며 최근재생목록에 음악이 등록된다.
+*	@pre	뮤직리스트에 음악이 있어야하며 입력하는 음악의 Index가 MusicList의 Music에 있어야한다.
+*	@post	재생한 음악의 재생횟수가 1회 추가되고 최근 재생된 목록에 음악이 추가된다.
+*	@param	x
+*	@return	x
+*/
 	void Play();
-
+	/**
+*	@brief	음악을 재생한다. 재생하면 재생횟수가 증가하며 최근재생목록에 음악이 등록된다. 재생목록에서 재생하기위한 Play함수의 오버로딩이다.
+*	@pre	뮤직리스트에 음악이 있어야하며 입력하는 음악의 Index가 MusicList의 Music에 있어야한다.
+*	@post	재생한 음악의 재생횟수가 1회 추가되고 최근 재생된 목록에 음악이 추가된다.
+*	@param	Index PrintPL함수에서 받아온 넘버, 재생할 곡의 번호이다.
+*	@return	x
+*/
 	void Play(int Index);
-	
+	/**
+*	@brief	최근 재생된 목록에 곡을 추가한다.
+*	@pre	Play 함수가 호출되어야 한다.
+*	@post	RecentlyPlayedList에 ManageType이 추가된다.
+*	@param	mptr 추가하고자 하는 MusicList의 특정원소의 주소값
+*	@return	x
+*/
 	void AddRecentlyPlayedList(MusicType* mptr);
-	
+	/**
+*	@brief	최근 재생된 목록을 출력한다.
+*	@pre	x
+*	@post	x
+*	@param	x	
+*	@return	x
+*/
 	void DisplayRecentlyPlayedMusic();
 private:
 	ifstream m_InFile;		///< input file descriptor.

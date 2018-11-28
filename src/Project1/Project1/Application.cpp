@@ -200,19 +200,19 @@ void Application::Delete()
 			//여기서부터 새로 추가된 코드
 			MusicType* tempmptr;
 			tempmptr = mgptr->getPtr();
-			DoublyIter2<ManageType> Mgiter2(RecentlyPlayedList);
+			DoublyIter2<ManageType> Mgiter2(RecentlyPlayedList);	
 			while (Mgiter2.NotNull())
 			{
 				MusicType* thismptr = Mgiter2.GetCurrentNode().data.getPtr();
 				if (tempmptr == thismptr)
 				{
 					ManageType* mgtempptr = Mgiter2.GetCurrentPtr();
-					mgtempptr->Deleted();
+					mgtempptr->Deleted();		//최근 재생된 목록에서도 지움표시를 해준다.
 				}
 				Mgiter2.Next();
 			}
 			//여기까지
-			mgptr->Deleted();
+			mgptr->Deleted();		//재생목록, 최근 추가목록에서 지움표시를 해준다.
 		}
 		Mgiter.Next();
 	}

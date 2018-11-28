@@ -109,12 +109,30 @@ public:
 *	@post	x
 */
 	void PrintAll();
-
+	/**
+*	@brief	해당 장르내에서 앨범으로 검색한다.
+*	@pre	x
+*	@post	x	
+*	@param	x
+*	@return	x
+*/
 	void SearchInListbyAlbum();
-
+	/**
+*	@brief	해당장르내에서 아티스트로 검색한다.
+*	@pre	x
+*	@post	x	
+*	@param	x
+*	@return	x
+*/
 	void SearchInListbyArtist();
 
-
+	/**
+*	@brief	대입 연산자
+*	@pre	data가 초기화되어있어야한다.
+*	@post	this 에 data의 값이 복사된다
+*	@param	data 대입하고자 하는 genretype
+*	@return	*this
+*/
 	GenreType operator=(const GenreType& data);
 
 

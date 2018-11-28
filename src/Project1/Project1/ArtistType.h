@@ -100,11 +100,24 @@ public:
 *	@post	x
 */
 	void PrintListinList() ;
-
+	/**
+*	@brief	리스트인 리스트를 비워준다.
+*	@pre	x
+*	@post	AlbumList가 비워진다.
+*	@param	x
+*	@return		x
+*/
 	void MakeEmptyListinList()
 	{
 		AlbumList.MakeEmpty();
 	}
+	/**
+*	@brief	이 아티스트 타입 내에서 장르별로 검색한다.
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	void SearchInListbyGenre();
 	
 private:

@@ -369,15 +369,35 @@ public:
 		return (this->GetPkey() < data.GetPkey());
 
 	}
-
+	/**
+*	@brief	재생된 횟수를 1 증가시킨다.
+*	@pre	x
+*	@post	재생횟수가 1 늘어난다
+*	@param	x
+*	@return	x
+*/
 	void cntPlayed()
 	{
 		Played++;
 	}
+	/**
+*	@brief	재생된 횟수를 보여준다.
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	int DisplayPlayed()
 	{
 		return Played;
 	}
+	/**
+*	@brief	곡명과 Index(track numbeR)을 출력한다.
+*	@pre	곡명과 number가 초기화되어있어야한다.
+*	@post	x	
+*	@param	x
+*	@return	x
+*/
 	void DisplayNameNIndex()
 	{
 		cout << "\t곡명 : " << Name << endl;

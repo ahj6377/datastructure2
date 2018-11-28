@@ -117,16 +117,40 @@ public:
 		else
 			return false;
 	};
-
+	/**
+*	@brief	대입 연산자
+*	@pre	D가 초기화되어 있어야한다
+*	@post	this에 D의 값이 대입된다. +깊은복사
+*	@param	D 대입하고자 하는 데이터
+*	@return	this
+*/
 	AlbumType operator=(const AlbumType& D);
-
+	/**
+*	@brief	리스트 안 리스트에 원소를 넣는다.
+*	@pre	x
+*	@post	Ab_List에 MusicType의 포인터가 삽입된다.
+*	@param	in 넣고자하는 MusicType의 포인터
+*	@return x
+*/
 	void AddListinList(MusicType* in);
-
+	/**
+*	@brief	리스트인 리스트의 모든 원소를 출력한다.
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	void Printall();
-	
+	/**
+*	@brief	앨범리스트 안의 원소를 장르별로 검색한다.
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	void SearchInListbyGenre();
 private:
 	string AlbumName; //앨범 이름을 저장할 변수
 	string ArtistName; //앨범의 아티스트를 저장할 변수
-	UnSortedLinkedList<MusicType*> Ab_List;
+	UnSortedLinkedList<MusicType*> Ab_List;		//MusicList의 원소들중 이 앨범타입의 앨범명과 아티스트명이 같은 원소들의 주소를 모아둔 리스트
 };
