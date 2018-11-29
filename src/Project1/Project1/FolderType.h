@@ -10,6 +10,7 @@ private:
 	UnSortedLinkedList<FolderType> Subfolder;
 	UnSortedLinkedList<ManageType*> Musics;
 	string Foldername;
+	string FolderLoc;
 	FolderType* Motherfolder;
 public:
 	FolderType() { Foldername = ""; Motherfolder = NULL; };
@@ -22,6 +23,14 @@ public:
 	{
 		return Foldername;
 	}
+	void setFloc(string Loc)
+	{
+		FolderLoc = Loc;
+	}
+	string getFloc()
+	{
+		return FolderLoc;
+	}
 	void AddMusic(ManageType* in);
 	void AddFolder();
 	void DisplayAllinFolder();
@@ -30,7 +39,7 @@ public:
 	{
 		Motherfolder = ptr;
 	}
-	FolderType* retMfodler()
+	FolderType* getMfolder()
 	{
 		return Motherfolder;
 	}
@@ -42,4 +51,6 @@ public:
 		else
 			return false;
 	}
+	void DisplayFolders();
+	FolderType* ReturnSubFolder(string str);
 };

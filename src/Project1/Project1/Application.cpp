@@ -65,6 +65,18 @@ void Application::Run()
 		case 30:
 			Play();
 			break;
+		case 40:
+			AddFolder();
+			break;
+		case 41:
+			DisplayFolder();
+			break;
+		case 42:
+			GotoMotherFolder();
+			break;
+		case 43:
+			GotoSubFolder();
+			break;
 		case 98:
 			ReadDataFromFile();
 			break;
@@ -85,7 +97,7 @@ int Application::GetCommand()
 {
 	int command;
 	cout << endl << endl;
-	cout << "\t   현재 폴더 : " << Folder.getFname() << endl;
+	cout << "\t   현재 경로 : " << FolderTracker->getFloc() << endl;
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : Add Music" << endl;
 	cout << "\t   2 : Delete Music" << endl;
@@ -108,6 +120,7 @@ int Application::GetCommand()
 	cout << "\t   40 : 폴더 추가하기" << endl;
 	cout << "\t   41 : 폴더 보기" << endl;
 	cout << "\t   42 : 상위 폴더로" << endl;
+	cout << "\t   43 : 하위 폴더로" << endl;
 	cout << "\t   98 : Get from file" << endl;
 	cout << "\t   99 : Put to file " << endl;
 	cout << "\t   0 : Quit" << endl;
@@ -1093,4 +1106,35 @@ void Application::DisplayRecentlyPlayedMusic()
 	}
 
 
+}
+
+void Application::AddFolder()
+{
+	FolderTracker->AddFolder();
+}
+
+void Application::GotoMotherFolder()
+{
+	if (FolderTracker->getMfolder() != NULL)
+	{
+		FolderTracker = FolderTracker->getMfolder();
+		cout << "폴더 이동 성공!" << endl;
+	}
+	else
+		cout << "상위 폴더가 없습니다!" << endl;
+}
+
+void Application::GotoSubFolder()
+{
+	FolderTracker->DisplayFolders();
+	string str;
+	cout << "\t이동하고 싶은 폴더를 입력해주세요 : ";
+	cin >> str;
+	FolderTracker = FolderTracker->ReturnSubFolder(str);
+	
+	
+}
+void Application::DisplayFolder()
+{
+	FolderTracker->DisplayAllinFolder();
 }

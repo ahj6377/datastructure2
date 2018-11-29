@@ -38,6 +38,7 @@ public:
 		RemakeListForPlay = true;
 		NumofPL = 0;
 		Folder.setFname("C");
+		Folder.setFloc("C");
 		FolderTracker = &Folder;
 	}
 
@@ -345,6 +346,14 @@ public:
 *	@return	x
 */
 	void DisplayRecentlyPlayedMusic();
+
+	void AddFolder();
+
+	void GotoMotherFolder();
+
+	void DisplayFolder();
+
+	void GotoSubFolder();
 private:
 	ifstream m_InFile;		///< input file descriptor.
 	ofstream m_OutFile;		///< output file descriptor.
