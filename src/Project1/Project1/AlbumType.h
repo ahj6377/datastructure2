@@ -149,6 +149,15 @@ public:
 *	@return	x
 */
 	void SearchInListbyGenre();
+	/**
+*	@brief	ArtistType의 SearchInListbyGenre 함수에서 장르명을 받아와 이 앨범안에서 장르별로 찾는 함수이다.
+*	@pre	x
+*	@post	x
+*	@param	str 찾고자하는 장르명
+*	@return	x
+*/
+
+	void FindInListbyGenre(string str);
 private:
 	string AlbumName; //앨범 이름을 저장할 변수
 	string ArtistName; //앨범의 아티스트를 저장할 변수

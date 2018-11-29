@@ -30,7 +30,7 @@ void AlbumType::SearchInListbyGenre()
 {
 
 	string str;
-	cout << "\t로 찾기" << endl;
+	cout << "\t장르로 찾기" << endl;
 	cout << "\t검색어 : ";
 	cin >> str;
 	DoublyIter2<MusicType*> iter(Ab_List);
@@ -43,4 +43,16 @@ void AlbumType::SearchInListbyGenre()
 		}
 		iter.Next();
 	}
+}
+
+void AlbumType::FindInListbyGenre(string str)
+{
+	DoublyIter2<MusicType*> iter(Ab_List);
+	while (iter.NotNull())
+	{
+		if (iter.GetCurrentNode().data->GetGenre() == str)
+			iter.GetCurrentNode().data->DisplayNameNIndex();
+		iter.Next();
+	}
+
 }

@@ -120,6 +120,7 @@
     <ClInclude Include="ArtistType.h" />
     <ClInclude Include="DoublyIter.h" />
     <ClInclude Include="DoublyIter2.h" />
+    <ClInclude Include="FolderType.h" />
     <ClInclude Include="GenreType.h" />
     <ClInclude Include="ManageType.h" />
     <ClInclude Include="MusicType.h" />

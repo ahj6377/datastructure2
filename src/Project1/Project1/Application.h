@@ -354,13 +354,15 @@ private:
 	SortedLinkedList <GenreType> GenreList;		//장르를 분류하기 위한 장르 리스트
 	UnSortedLinkedList<PLType> PlayLists;
 	UnSortedLinkedList<ManageType> RecentlyPlayedList;
+
+	MusicType** ListforPlay;		//재생을 위한 ArrayList
 	//아래의 변수들은 각 하위 리스트를 다시만들어야 할지 판별하는 변수이다.
-	MusicType** ListforPlay;
 	bool RemakeAlbumList;			
 	bool RemakeArtistList;
 	bool RemakeGenreList;
 	bool RemakeListForPlay;
-	int NumofPL;
+	//
+	int NumofPL;	//재생목록의 수
 };
 
 

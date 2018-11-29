@@ -736,8 +736,21 @@ void Application::DisplayMusicByAlbum()
 		AlbumType* aptr;
 		if (str == Abiter.GetCurrentNode().data.GetAlbumName())
 		{
-			aptr = Abiter.GetCurrentPtr();
-			aptr->SearchInListbyGenre();
+			int a = 1;
+			while (a)
+			{
+				cout << "\t 1: 장르로 찾기" << endl;
+				cout << "\t 0: 나가기" << endl;
+				cin >> a;
+				switch (a)
+				{
+				case 1:
+					Abiter.GetCurrentNode().data.SearchInListbyGenre();
+					break;
+				case 0:
+					break;
+				}
+			}
 		}
 		Abiter.Next();
 		
@@ -825,8 +838,34 @@ void Application::DisplayMusicByArtist()
 		Atptr->PrintListinList();
 		Atiter2.Next();
 	}
-
-
+	Atiter2.First();
+	string str;
+	cout << "\t보고 싶은 아티스트 : ";
+	cin >> str;
+	while (Atiter2.NotNull())
+	{
+		if (Atiter2.GetCurrentNode().data.GetArtistName() == str)
+		{
+			int a = 1;
+			while (a)
+			{
+				cout << "\t 1: 장르로 찾기" << endl;
+				cout << "\t 0: 나가기" << endl;
+				cin >> a;
+				switch (a)
+				{
+				case 1:
+					Atiter2.GetCurrentNode().data.SearchInListbyGenre();
+					break;
+				case 0:
+				
+					
+					break;
+				}
+			}
+		}
+		Atiter2.Next();
+	}
 
 }
 void Application::SetMusicIndex()

@@ -24,12 +24,14 @@ ArtistType::ArtistType(const ArtistType& data)
 
 void ArtistType::SearchInListbyGenre()
 {
-
+	string str;
+//	cout << "\t장르로 찾기" << endl;
+	cout << "\t검색어 : ";
+	cin >> str;
 	DoublyIter<AlbumType> Abiter(AlbumList);
 	while (Abiter.NotNull())
 	{
-		AlbumType* ptr;
-		ptr = Abiter.GetCurrentPtr();
+		Abiter.GetCurrentNode().data.FindInListbyGenre(str);
 		
 
 		Abiter.Next();
