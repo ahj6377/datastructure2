@@ -85,6 +85,7 @@ int Application::GetCommand()
 {
 	int command;
 	cout << endl << endl;
+	cout << "\t   현재 폴더 : " << Folder.getFname() << endl;
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : Add Music" << endl;
 	cout << "\t   2 : Delete Music" << endl;
@@ -104,6 +105,9 @@ int Application::GetCommand()
 	cout << "\t   22 : 재생목록 보기" << endl;
 	cout << "\t   23 : 최근 재생한 목록 보기" << endl;
 	cout << "\t   30 : 재생하기" << endl;
+	cout << "\t   40 : 폴더 추가하기" << endl;
+	cout << "\t   41 : 폴더 보기" << endl;
+	cout << "\t   42 : 상위 폴더로" << endl;
 	cout << "\t   98 : Get from file" << endl;
 	cout << "\t   99 : Put to file " << endl;
 	cout << "\t   0 : Quit" << endl;
@@ -141,12 +145,21 @@ int Application::AddMusic()
 
 	
 	mg_List.Add(mgitem);
+	DoublyIter2<ManageType> mgiter(mg_List);
+	
+	while (mgiter.NotNull())
+	{
+		if (mgitem == mgiter.GetCurrentNode().data)	//ManageType의 특정 원소의 주소값을 받아온다.
+		{
+			ManageType* mgptr;
+			mgptr = mgiter.GetCurrentPtr();
+			FolderTracker->AddMusic(mgptr);
 
+		}
+		mgiter.Next();
+	}
 	//최근 추가목록에 추가하기
 	/*
-
-
-
 	Simpletype.SetRecord(num, name);
 	if (!AddRecentlyMusicList.IsFull())		//최근 추가된목록이 가득차지 않았을경우
 		AddRecentlyMusicList.EnQueue(Simpletype);			//큐에 하나 추가

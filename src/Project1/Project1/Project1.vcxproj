@@ -132,6 +132,7 @@
     <ClCompile Include="AlbumType.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ArtistType.cpp" />
+    <ClCompile Include="FolderType.cpp" />
     <ClCompile Include="GenreType.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManageType.cpp" />
