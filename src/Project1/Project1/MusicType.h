@@ -403,6 +403,27 @@ public:
 		cout << "\t곡명 : " << Name << endl;
 		cout << "\tTrackNo. : " << Num << endl;
 	}
+	/**
+*	@brief	음악파일의 경로를 지정한다.
+*	@pre	x
+*	@post	음악파일의 경로가 set된다
+*	@param	loc 경로
+*	@return	x
+*/
+	void SetLoc(string loc) {
+		Loc = loc;
+	}
+	/**
+*	@brief	음악파일의 경로를 get한다
+*	@pre	음악파일의 경로가 초기화되어 있어야한다.
+*	@post	x
+*	@param	x
+*	@return	경로 string
+*/
+	string GetLoc()
+	{
+		return Loc;
+	}
 protected:
 	int Num;		//곡의 인덱스
 	string Name; //곡명
@@ -411,6 +432,7 @@ protected:
 	string Genre; //장르
 	string Lyrics; //가사
 	string Pkey; //Primary Key
+	string Loc;	//음악파일의 경로
 	int Played;	//재생된 횟수
 };
 

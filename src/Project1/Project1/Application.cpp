@@ -20,68 +20,30 @@ void Application::Run()
 		case 3:
 			Update();
 			break;
-		case 4:	//곡명으로 검색
-			RetreiveRecordByName();
+		case 4:	
+			SearchModule(); 
 			break;
-		case 5:	//가수명으로 검색
-			RetreiveRecordBySinger();
+		case 5:	
+			DisplayModule(); 
 			break;
-		case 6:	//앨범명으로 검색
-			RetreiveRecordByAlbum();
-			break;
-		case 7:	//장르로 검색
-			RetreiveRecordByGenre();
-			break;
-		case 8:		// load list data from a file.
-			DisplayAllMusic();
-			break;
-		case 9:
+		case 6:	
 			DIsplayNewMusic();
 			break;
+		case 7:	
+			PlayListModule(); 
+			break;
+		case 8:		// load list data from a file.
+			Play(); 
+			break;
+		case 9:
+			DisplayRecentlyPlayedMusic(); 
+			break;
 		case 10:
-			DisplayMusicbyGenre();
-			break;
-		case 11:
-			RetreiveRecordByNameNGenre();
-			break;
-		case 12:
-			DisplayMusicByAlbum();
-			break;
-		case 13:
-			DisplayMusicByArtist();
-			break;
-		case 20:
-			makePlayList();
-			break;
-		case 21:
-			AddMusicInPL();
-			break;
-		case 22:
-			PrintPL();
-			break;
-		case 23:
-			DisplayRecentlyPlayedMusic();
-			break;
-		case 30:
-			Play();
-			break;
-		case 40:
-			AddFolder();
-			break;
-		case 41:
-			DisplayFolder();
-			break;
-		case 42:
-			GotoMotherFolder();
-			break;
-		case 43:
-			GotoSubFolder();
-			break;
-		case 98:
-			ReadDataFromFile();
+			FolderModule();
 			break;
 		case 99:
-			WriteDataToFile();
+			ReadDataFromFile();
+			break;
 		case 0:
 			return;
 		default:
@@ -97,7 +59,9 @@ int Application::GetCommand()
 {
 	int command;
 	cout << endl << endl;
+
 	cout << "\t   현재 경로 : " << FolderTracker->getFloc() << endl;
+	/*
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : Add Music" << endl;
 	cout << "\t   2 : Delete Music" << endl;
@@ -124,6 +88,18 @@ int Application::GetCommand()
 	cout << "\t   98 : Get from file" << endl;
 	cout << "\t   99 : Put to file " << endl;
 	cout << "\t   0 : Quit" << endl;
+	*/
+	cout << "\t   1 : 음악 추가" << endl;
+	cout << "\t   2 : 음악 삭제" << endl;
+	cout << "\t   3 : 음악 정보 변경" << endl;
+	cout << "\t   4 : 검색 기능" << endl;
+	cout << "\t   5 : 음악 정보 분류별로 보기" << endl;
+	cout << "\t   6 : 최근 추가된 목록 보기 " << endl;
+	cout << "\t   7 : 재생목록 관련 기능" << endl;
+	cout << "\t   8 : 재생하기" << endl;
+	cout << "\t   9 : 최근 재생된 목록 보기" << endl;
+	cout << "\t   10 : 폴더 관련 기능" << endl;
+	cout << "\t   99 : 파일에서 읽어오기" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
@@ -1039,14 +1015,14 @@ void Application::Play()
 		}
 		RemakeListForPlay = false;
 	}
-	cout << "재생할 곡의 Index를 입력해주세요. " << endl;
+	cout << "\t재생할 곡의 Index를 입력해주세요. " << endl;
 	int cmdIndex;
 	cin >> cmdIndex;
 	if (cmdIndex < 0)
 		return;
 	if (cmdIndex > m_List.GetLength())
 	{
-		cout << "잘못된 입력입니다" << endl;
+		cout << "\t잘못된 입력입니다" << endl;
 		return;
 	}
 	ListforPlay[cmdIndex - 1]->cntPlayed();
@@ -1137,4 +1113,136 @@ void Application::GotoSubFolder()
 void Application::DisplayFolder()
 {
 	FolderTracker->DisplayAllinFolder();
+}
+
+void Application::SearchModule()
+{
+	int cmd;
+	while (1)
+	{
+
+		cout << "\t   1: 곡명으로 찾기" << endl;
+		cout << "\t   2: 장르로 찾기" << endl;
+		cout << "\t   3: 앨범으로 찾기" << endl;
+		cout << "\t   4: 아티스트로 찾기" << endl;
+		cout << "\t   0: 나가기" << endl;
+		cin >> cmd;
+		switch (cmd)
+		{
+		case 1:
+			RetreiveRecordByName();
+			break;
+		case 2:
+			RetreiveRecordByGenre();
+			break;
+		case 3:
+			RetreiveRecordByAlbum();
+			break;
+		case 4:
+			RetreiveRecordBySinger();
+			break;
+		case 0:
+			return;
+		}
+	}
+
+
+
+}
+
+void Application::DisplayModule()
+{
+	int cmd;
+	while (1)
+	{
+		cout << "\t   1: 장르별로 보기" << endl;
+		cout << "\t   2: 앨범별로 보기" << endl;
+		cout << "\t   3: 아티스트별로 보기" << endl;
+
+		cout << "\t   0: 나가기" << endl;
+		cin >> cmd;
+		switch (cmd)
+		{
+		case 1:
+			DisplayMusicbyGenre();
+			break;
+		case 2:
+			DisplayMusicByAlbum();
+			break;
+		case 3:
+			DisplayMusicByArtist();
+			break;
+		case 0:
+			return;
+		}
+	}
+
+
+}
+
+void Application::FolderModule()
+{
+	int cmd;
+
+	while (1)
+	{
+		cout << "\t   현재 경로 : " << FolderTracker->getFloc() << endl;
+		cout << "\t   1 : 폴더 추가하기" << endl;
+		cout << "\t   2 : 폴더 보기" << endl;
+		cout << "\t   3 : 상위 폴더로" << endl;
+		cout << "\t   4 : 하위 폴더로" << endl;
+		cout << "\t   0 : 나가기" << endl;
+		cin >> cmd;
+		switch (cmd)
+		{
+		case 1:
+			AddFolder();
+			break;
+		case 2:
+			DisplayFolder();
+			break;
+		case 3:
+			GotoMotherFolder();
+			break;
+		case 4:
+			GotoSubFolder();
+			break;
+		case 0:
+			return;
+
+		}
+
+			
+
+	}
+
+}
+
+void Application::PlayListModule()
+{
+	int cmd;
+	while (1)
+	{
+		cout << "\t   1 : 재생목록 만들기" << endl;
+		cout << "\t   2 : 재생목록에 추가하기" << endl;
+		cout << "\t   3 : 재생목록 보기" << endl;
+		cout << "\t   0 : 나가기" << endl;
+		cin >> cmd;
+		switch (cmd)
+		{
+		case 1:
+			makePlayList();
+			break;
+		case 2:
+			AddMusicInPL();
+			break;
+		case 3:
+			PrintPL();
+			break;
+		case 0:
+			return;
+		}
+	}
+
+
 }

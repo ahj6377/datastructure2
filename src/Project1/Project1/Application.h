@@ -346,14 +346,70 @@ public:
 *	@return	x
 */
 	void DisplayRecentlyPlayedMusic();
-
+	/**
+*	@brief	현재 폴더에 새 폴더를 추가한다.
+*	@pre	x
+*	@post	현재 폴더에 새 폴더가 추가된다.
+*	@param	x
+*	@return	x
+*/
 	void AddFolder();
-
+	/**
+*	@brief	상위 폴더로 간다.
+*	@pre	현재 폴더가 최상위 폴더가 아니어야 한다.
+*	@post	FolderTracker가 상위 폴더를 가리키게 된다.
+*	@param	x
+*	@return	x
+*/
 	void GotoMotherFolder();
-
+	/**	
+*	@brief	폴더안의 모든 내용을 출력한다.
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
 	void DisplayFolder();
-
+	/**
+*	@brief	하위 폴더로 간다.
+*	@pre	현재 폴더에 하위폴더가 있어야한다. & 입력한 폴더명이 하위폴더에 있어야한다.
+*	@post	FolderTracker가 원하는 하위 폴더를 가리키게 된다.
+*	@param	x
+*	@return	x
+*/
 	void GotoSubFolder();
+	/**
+*	@brief	검색기능을 모아둔 모듈
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
+	void SearchModule();
+	/**
+*	@brief	분류별 출력기능을 모아둔 모듈
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
+	void DisplayModule();
+	/**
+*	@brief	폴더 기능을 모아둔 모듈
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
+	void FolderModule();
+	/**
+*	@brief	재생목록 기능을 모아둔 모듈
+*	@pre	x
+*	@post	x
+*	@param	x
+*	@return	x
+*/
+	void PlayListModule();
 private:
 	ifstream m_InFile;		///< input file descriptor.
 	ofstream m_OutFile;		///< output file descriptor.
@@ -365,8 +421,8 @@ private:
 	SortedLinkedList <GenreType> GenreList;		//장르를 분류하기 위한 장르 리스트
 	UnSortedLinkedList<PLType> PlayLists;
 	UnSortedLinkedList<ManageType> RecentlyPlayedList;
-	FolderType Folder;
-	FolderType* FolderTracker;
+	FolderType Folder;		//기본 폴더
+	FolderType* FolderTracker;		//현재 폴더를 나타내기 위한 폴더추적용 변수
 	MusicType** ListforPlay;		//재생을 위한 ArrayList
 	//아래의 변수들은 각 하위 리스트를 다시만들어야 할지 판별하는 변수이다.
 	bool RemakeAlbumList;			

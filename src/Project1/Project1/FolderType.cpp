@@ -23,17 +23,19 @@ void FolderType::AddFolder()
 void FolderType::DisplayAllinFolder()
 {
 	cout << "\t --- 현재 경로 : " << FolderLoc << endl;
+	cout << "\t --- 폴더:" << endl;
 	DoublyIter2<FolderType> Fiter(Subfolder);
 	while (Fiter.NotNull())
 	{
-		cout << "\t --- 폴더:" << Fiter.GetCurrentNode().data.getFname() << endl;
+		cout << Fiter.GetCurrentNode().data.getFname() << endl;
 		Fiter.Next();
 	}
 	DoublyIter2<ManageType*> Mgiter(Musics);
 
+	cout << "\t --- 음악  " << endl;
 	while (Mgiter.NotNull())
 	{
-		cout << "\t --- 음악  " << endl;
+		
 		Mgiter.GetCurrentNode().data->PrintNameNIndex();
 		Mgiter.Next();
 	}
@@ -43,11 +45,11 @@ void FolderType::DisplayAllinFolder()
 
 void FolderType::DisplayFolders()
 {
-	
+	cout << "\t --- 폴더:" << endl;
 	DoublyIter2<FolderType> Fiter(Subfolder);
 	while (Fiter.NotNull())
 	{
-		cout << "\t --- 폴더:" << Fiter.GetCurrentNode().data.getFname() << endl;
+		cout << "\t" <<Fiter.GetCurrentNode().data.getFname() << endl;
 		Fiter.Next();
 	}
 	DoublyIter2<ManageType*> Mgiter(Musics);
@@ -61,6 +63,7 @@ FolderType* FolderType::ReturnSubFolder(string str)
 	{
 		if (str == iter.GetCurrentNode().data.getFname())
 			return iter.GetCurrentPtr();
+		iter.Next();
 	}
 	cout << "\t 찾지 못했습니다!" << endl;
 	return this;
