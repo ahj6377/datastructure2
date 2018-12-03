@@ -52,7 +52,7 @@ public:
 		DoublyIter<ArtistType> Atiter(ArtistList);
 		while (Atiter.NotNull())
 		{
-			ArtistType* Atptr = Atiter.GetCurrentPtr();
+			ArtistType* Atptr = nullptr; Atptr = Atiter.GetCurrentPtr();
 			Atptr->MakeEmptyListinList();
 			Atiter.Next();
 		}

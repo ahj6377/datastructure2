@@ -134,7 +134,7 @@ int Application::AddMusic()
 	{
 		if (Miter.GetCurrentNode().data == item)
 		{
-			MusicType* tempmptr = Miter.GetCurrentPtr();
+			MusicType* tempmptr = nullptr; tempmptr = Miter.GetCurrentPtr();
 			mgitem.setPtr(tempmptr);
 		}
 		Miter.Next();
@@ -148,7 +148,7 @@ int Application::AddMusic()
 	{
 		if (mgitem == mgiter.GetCurrentNode().data)	//ManageType의 특정 원소의 주소값을 받아온다.
 		{
-			ManageType* mgptr;
+			ManageType* mgptr = nullptr;
 			mgptr = mgiter.GetCurrentPtr();
 			CurrentFolder->AddMusic(mgptr);
 
@@ -189,7 +189,8 @@ int Application::AddMusic(MusicType item)
 	{
 		if (Miter.GetCurrentNode().data == item)
 		{
-			MusicType* tempmptr = Miter.GetCurrentPtr();
+			MusicType* tempmptr = nullptr; 
+			tempmptr = Miter.GetCurrentPtr();
 			mgitem.setPtr(tempmptr);
 		}
 		Miter.Next();
@@ -203,7 +204,7 @@ int Application::AddMusic(MusicType item)
 	{
 		if (mgitem == mgiter.GetCurrentNode().data)	//ManageType의 특정 원소의 주소값을 받아온다.
 		{
-			ManageType* mgptr;
+			ManageType* mgptr = nullptr;
 			mgptr = mgiter.GetCurrentPtr();
 			CurrentFolder->AddMusic(mgptr);
 
@@ -255,14 +256,14 @@ void Application::Delete()
 	data.SetNumFromKB();	//사용자에게서 곡 번호를 입력받는다.
 	SearchByIndex(data);
 	DoublyIter2<ManageType> Mgiter(mg_List);
-	ManageType* mgptr;
+	ManageType* mgptr = NULL;
 	while (Mgiter.NotNull())
 	{
 		if (Mgiter.GetCurrentNode().data.getIndex() == data.GetNum())
 		{
 			mgptr = Mgiter.GetCurrentPtr();
 			//여기서부터 새로 추가된 코드
-			MusicType* tempmptr;
+			MusicType* tempmptr = NULL;
 			tempmptr = mgptr->getPtr();
 			DoublyIter2<ManageType> Mgiter2(RecentlyPlayedList);	
 			while (Mgiter2.NotNull())
@@ -270,7 +271,8 @@ void Application::Delete()
 				MusicType* thismptr = Mgiter2.GetCurrentNode().data.getPtr();
 				if (tempmptr == thismptr)
 				{
-					ManageType* mgtempptr = Mgiter2.GetCurrentPtr();
+					ManageType* mgtempptr = nullptr;
+					mgtempptr = Mgiter2.GetCurrentPtr();
 					mgtempptr->Deleted();		//최근 재생된 목록에서도 지움표시를 해준다.
 				}
 				Mgiter2.Next();
@@ -346,14 +348,14 @@ void Application::Update()
 			{
 				if (Miter.GetCurrentNode().data == data)		//정보를 바꾼 원소의 위치를 찾는다.
 				{
-					MusicType* mptr;
+					MusicType* mptr = nullptr;
 					mptr = Miter.GetCurrentPtr();
 					DoublyIter2<ManageType> Mgiter(mg_List);
 					while (Mgiter.NotNull())
 					{
 						if (Mgiter.GetCurrentNode().data.getPkey() == data.GetPkey())		//정보를 바꾼 원소의 주소를 기존의 원소의 정보를 담고있던 mg_List의 ptr값에 넘겨준다
 						{
-							ManageType* mgptr;
+							ManageType* mgptr = NULL;
 							mgptr = Mgiter.GetCurrentPtr();
 							mgptr->setPtr(mptr);
 							tempptr->setPtr(mptr);//최근 재생된목록에 있던 포인터도 갱신해준다.
@@ -647,9 +649,9 @@ void Application::DisplayMusicbyGenre()
 			{
 				if (Giter.GetCurrentNode().data.GetGenre() == Miter2.GetCurrentNode().data.GetGenre())
 				{
-					MusicType* mptr;
+					MusicType* mptr = nullptr;
 					mptr = Miter2.GetCurrentPtr();
-					GenreType* gptr;
+					GenreType* gptr = nullptr;
 					gptr = Giter.GetCurrentPtr();
 					gptr->addListinList(mptr);
 				}
@@ -675,7 +677,7 @@ void Application::DisplayMusicbyGenre()
 	cin >> str;
 	Giter.First();
 
-	GenreType* gptr;
+	GenreType* gptr = NULL;
 	while (Giter.NotNull())
 	{
 		if (Giter.GetCurrentNode().data.GetGenre() == str)
@@ -776,8 +778,8 @@ void Application::DisplayMusicByAlbum()
 				Aalbum = Abiter.GetCurrentNode().data.GetAlbumName();
 				if(Martist == Aartist && Malbum == Aalbum)
 				{
-					MusicType* mptr = Miter2.GetCurrentPtr();
-					AlbumType* abptr = Abiter.GetCurrentPtr();
+					MusicType* mptr = nullptr; mptr = Miter2.GetCurrentPtr();
+					AlbumType* abptr = nullptr; abptr = Abiter.GetCurrentPtr();
 					abptr->AddListinList(mptr);
 
 				}
@@ -871,8 +873,8 @@ void Application::DisplayMusicByArtist()
 				Aalbum = Abiter.GetCurrentNode().data.GetAlbumName();
 				if (Martist == Aartist && Malbum == Aalbum)
 				{
-					MusicType* mptr = Miter2.GetCurrentPtr();
-					AlbumType* abptr = Abiter.GetCurrentPtr();
+					MusicType* mptr = nullptr; mptr = Miter2.GetCurrentPtr();
+					AlbumType* abptr = nullptr; abptr = Abiter.GetCurrentPtr();
 					abptr->AddListinList(mptr);
 
 				}
@@ -888,7 +890,7 @@ void Application::DisplayMusicByArtist()
 			{
 				if (Atiter.GetCurrentNode().data.GetArtistName() == Abiter.GetCurrentNode().data.GetArtistName())
 				{
-					ArtistType* temp;
+					ArtistType* temp = nullptr;
 					temp = Atiter.GetCurrentPtr();
 					AlbumType thisAlbum = Abiter.GetCurrentNode().data;
 					temp->AddListinList(thisAlbum);
@@ -905,7 +907,7 @@ void Application::DisplayMusicByArtist()
 	DoublyIter<ArtistType> Atiter2(ArtistList);
 	while (Atiter2.NotNull())
 	{
-		ArtistType *Atptr;
+		ArtistType *Atptr = NULL;
 		Atptr = Atiter2.GetCurrentPtr();
 		Atptr->PrintListinList();
 		Atiter2.Next();
@@ -947,7 +949,7 @@ void Application::SetMusicIndex()
 
 	while (Miter.NotNull())
 	{
-		MusicType* Mptr;
+		MusicType* Mptr = NULL;
 		Mptr = Miter.GetCurrentPtr();
 		Mptr->SetNum(Index);
 		Index++;
@@ -999,7 +1001,7 @@ void Application::AddMusicInPL()
 	cout << "\t 추가하고자 하는 재생목록 선택 : ";
 	cin >> N;
 	DoublyIter2<PLType> PLiter2(PlayLists);
-	PLType* ptr;
+	PLType* ptr = NULL;
 	while (PLiter2.NotNull())
 	{
 		if (PLiter2.GetCurrentNode().data.getPLname() == N)
@@ -1014,7 +1016,7 @@ void Application::AddMusicInPL()
 				if (num > m_List.GetLength() || num == 0)
 					break;
 				DoublyIter2<ManageType> Mgiter(mg_List);
-				ManageType* mgPtr;
+				ManageType* mgPtr = NULL;
 				while (Mgiter.NotNull())
 				{
 					if (Mgiter.GetCurrentNode().data.getIndex() == num)
@@ -1044,7 +1046,7 @@ void Application::PrintPL()	//재생목록안에 있는 내용을 출력한다.
 	cout << "\t재생목록 선택 : " << endl;
 	cin >> N;
 	DoublyIter2<PLType> PLiter2(PlayLists);
-	PLType* ptr;
+	PLType* ptr = NULL;
 	while (PLiter2.NotNull())
 	{
 		if (PLiter2.GetCurrentNode().data.getPLname() == N)
