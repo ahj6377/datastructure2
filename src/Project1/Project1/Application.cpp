@@ -673,7 +673,7 @@ void Application::DisplayMusicbyGenre()
 		Giter.Next();
 	}
 	string str;
-	cout << "보고싶은 장르를 입력해주세요" << endl;
+	cout << "\t보고싶은 장르를 입력해주세요" << endl;
 	cin >> str;
 	Giter.First();
 
@@ -801,7 +801,7 @@ void Application::DisplayMusicByAlbum()
 		thisAlbum.Printall();
 		Abiter.Next();
 	}
-	cout << "보고싶은 앨범명 : " << endl;
+	cout << "\t보고싶은 앨범을 입력해주세요 : " << endl;
 	string str;
 	cin >> str;
 	Abiter.First();
@@ -914,7 +914,7 @@ void Application::DisplayMusicByArtist()
 	}
 	Atiter2.First();
 	string str;
-	cout << "\t보고 싶은 아티스트 : ";
+	cout << "\t보고 싶은 아티스트를 입력해주세요 : ";
 	cin >> str;
 	while (Atiter2.NotNull())
 	{
@@ -981,7 +981,7 @@ void Application::makePlayList()
 {
 	string N;
 	PLType PL;
-	cout << "재생목록 이름 :";
+	cout << "\t재생목록 이름 :";
 	cin >> N;
 	PL.setPLname(N);
 	PlayLists.Add(PL);
@@ -1166,10 +1166,10 @@ void Application::GotoMotherFolder()
 	if (CurrentFolder->getMfolder() != NULL)
 	{
 		CurrentFolder = CurrentFolder->getMfolder();
-		cout << "폴더 이동 성공!" << endl;
+		cout << "\t폴더 이동 성공!" << endl;
 	}
 	else
-		cout << "상위 폴더가 없습니다!" << endl;
+		cout << "\t상위 폴더가 없습니다!" << endl;
 }
 
 void Application::GotoSubFolder()
