@@ -27,7 +27,7 @@ void FolderType::DisplayAllinFolder()
 	DoublyIter2<FolderType> Fiter(Subfolder);
 	while (Fiter.NotNull())
 	{
-		cout << Fiter.GetCurrentNode().data.getFname() << endl;
+		cout << "\t ---  " <<  Fiter.GetCurrentNode().data.getFname() << endl;
 		Fiter.Next();
 	}
 	DoublyIter2<ManageType*> Mgiter(Musics);

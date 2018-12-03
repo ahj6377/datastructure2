@@ -135,4 +135,6 @@ public:
 *	@return	하위폴더의 주소값
 */
 	FolderType* ReturnSubFolder(string str);
+
+
 };

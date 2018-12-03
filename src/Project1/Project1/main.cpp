@@ -14,7 +14,7 @@
 *				- 한글사용을 위해서는 Doxywizard에서 아래와 같이 설정할 것.<br>
 *				Expert 탭 -> Input (Topics 에서 선택) -> INPUT_ENCODING 을 "EUC-KR" 로 설정.
 *
-*	@date	2018-10-11
+*	@date	2018-12-03
 *	@author	2016104132 안형준
 */
 

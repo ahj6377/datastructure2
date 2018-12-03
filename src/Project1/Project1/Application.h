@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 #include<sstream>
+#include<cstdlib>
+#include<ctime>
 using namespace std;
 
 
@@ -39,7 +41,7 @@ public:
 		NumofPL = 0;
 		Folder.setFname("C");
 		Folder.setFloc("C");
-		FolderTracker = &Folder;
+		CurrentFolder = &Folder;
 	}
 
 	/**
@@ -81,7 +83,14 @@ public:
 	*	@return	return 1 if this function works well, otherwise 0.
 	*/
 	int AddMusic();
+	/**
+*	@brief	음악파일을 추가하는 함수의 오버로딩. 파일에서부터 음악정보를 읽을때 사용함
+*	@pre	list should be initialized.
+*	@post	new record is added into the list.
+*	@return	return 1 if this function works well, otherwise 0.
+*/
 
+	int AddMusic(MusicType item);
 	/**
 	*	@brief	Display all records in the list on screen.
 	*	@pre	none.
@@ -357,7 +366,7 @@ public:
 	/**
 *	@brief	상위 폴더로 간다.
 *	@pre	현재 폴더가 최상위 폴더가 아니어야 한다.
-*	@post	FolderTracker가 상위 폴더를 가리키게 된다.
+*	@post	CurrentFolder가 상위 폴더를 가리키게 된다.
 *	@param	x
 *	@return	x
 */
@@ -373,7 +382,7 @@ public:
 	/**
 *	@brief	하위 폴더로 간다.
 *	@pre	현재 폴더에 하위폴더가 있어야한다. & 입력한 폴더명이 하위폴더에 있어야한다.
-*	@post	FolderTracker가 원하는 하위 폴더를 가리키게 된다.
+*	@post	CurrentFolder가 원하는 하위 폴더를 가리키게 된다.
 *	@param	x
 *	@return	x
 */
@@ -410,19 +419,28 @@ public:
 *	@return	x
 */
 	void PlayListModule();
+	/**
+*	@brief	곡을 랜덤으로 재생한다.
+*	@pre	x
+*	@post	랜덤으로 선택된 곡이 재생된다.
+*	@param	x
+*	@return	x
+*/
+
+	void RandomPlay();
 private:
 	ifstream m_InFile;		///< input file descriptor.
 	ofstream m_OutFile;		///< output file descriptor.
 	SortedLinkedList<MusicType> m_List;		/// 노래 리스트
-	UnSortedLinkedList<ManageType> mg_List;
+	UnSortedLinkedList<ManageType> mg_List;		//곡을 관리하기 위한 ManageType의 리스트
 	int m_Command;			///< current command number.
 	SortedLinkedList<AlbumType> AlbumList;			//앨범을 분류하기 위한 앨범리스트
 	SortedLinkedList<ArtistType> ArtistList;		//아티스트를 분류하기 위한 아티스트리스트
 	SortedLinkedList <GenreType> GenreList;		//장르를 분류하기 위한 장르 리스트
-	UnSortedLinkedList<PLType> PlayLists;
-	UnSortedLinkedList<ManageType> RecentlyPlayedList;
+	UnSortedLinkedList<PLType> PlayLists;	//재생목록들
+	UnSortedLinkedList<ManageType> RecentlyPlayedList;		//최근 재생한 목록
 	FolderType Folder;		//기본 폴더
-	FolderType* FolderTracker;		//현재 폴더를 나타내기 위한 폴더추적용 변수
+	FolderType* CurrentFolder;		//현재 폴더를 나타내기 위한 폴더추적용 변수
 	MusicType** ListforPlay;		//재생을 위한 ArrayList
 	//아래의 변수들은 각 하위 리스트를 다시만들어야 할지 판별하는 변수이다.
 	bool RemakeAlbumList;			

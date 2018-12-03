@@ -98,5 +98,12 @@ public:
 			return false;
 	}
 
+	bool Getdeleted()
+	{
+		if (Isdeleted == true)
+			return true;
+		else
+			return false;
+	}
 };
 

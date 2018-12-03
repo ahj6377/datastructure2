@@ -41,6 +41,12 @@ void Application::Run()
 		case 10:
 			FolderModule();
 			break;
+		case 11:
+			DisplayAllMusic();
+			break;
+		case 12:
+			RandomPlay();
+			break;
 		case 99:
 			ReadDataFromFile();
 			break;
@@ -60,7 +66,7 @@ int Application::GetCommand()
 	int command;
 	cout << endl << endl;
 
-	cout << "\t   현재 경로 : " << FolderTracker->getFloc() << endl;
+	cout << "\t   현재 경로 : " << CurrentFolder->getFloc() << endl;
 	/*
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : Add Music" << endl;
@@ -99,8 +105,10 @@ int Application::GetCommand()
 	cout << "\t   8 : 재생하기" << endl;
 	cout << "\t   9 : 최근 재생된 목록 보기" << endl;
 	cout << "\t   10 : 폴더 관련 기능" << endl;
+	cout << "\t   11 : 모든 음악 보기" << endl;
+	cout << "\t   12 : 랜덤 재생하기" << endl;
 	cout << "\t   99 : 파일에서 읽어오기" << endl;
-
+	cout << "\t   0  : 종료하기" << endl;
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
 	cout << endl;
@@ -142,7 +150,7 @@ int Application::AddMusic()
 		{
 			ManageType* mgptr;
 			mgptr = mgiter.GetCurrentPtr();
-			FolderTracker->AddMusic(mgptr);
+			CurrentFolder->AddMusic(mgptr);
 
 		}
 		mgiter.Next();
@@ -165,7 +173,61 @@ int Application::AddMusic()
 	return 1;
 }
 
+int Application::AddMusic(MusicType item)
+{
+	string genre;	//장르를 저장할 임시변수
+	string name;	//곡명을 저장할 임시변수
 
+
+
+	m_List.Add(item);		//MusicList에 원소 추가
+	RemakeSubList();		//MusicList에 변화가 생겼으므로 하위 리스트들을 다시 만들어줘야 한다.
+	SetMusicIndex();		//MusicList에 변화가 생겼으므로 Index를 다시 부여한다.
+	DoublyIter<MusicType> Miter(m_List);
+	ManageType mgitem;
+	while (Miter.NotNull())
+	{
+		if (Miter.GetCurrentNode().data == item)
+		{
+			MusicType* tempmptr = Miter.GetCurrentPtr();
+			mgitem.setPtr(tempmptr);
+		}
+		Miter.Next();
+	}
+
+
+	mg_List.Add(mgitem);
+	DoublyIter2<ManageType> mgiter(mg_List);
+
+	while (mgiter.NotNull())
+	{
+		if (mgitem == mgiter.GetCurrentNode().data)	//ManageType의 특정 원소의 주소값을 받아온다.
+		{
+			ManageType* mgptr;
+			mgptr = mgiter.GetCurrentPtr();
+			CurrentFolder->AddMusic(mgptr);
+
+		}
+		mgiter.Next();
+	}
+	//최근 추가목록에 추가하기
+	/*
+	Simpletype.SetRecord(num, name);
+	if (!AddRecentlyMusicList.IsFull())		//최근 추가된목록이 가득차지 않았을경우
+		AddRecentlyMusicList.EnQueue(Simpletype);			//큐에 하나 추가
+	else									//최근 추가된목록이 30개 꽉 찼을경우
+	{
+		SimplifiedType S_temp;
+		AddRecentlyMusicList.DeQueue(S_temp);		//하나를 지우고
+		AddRecentlyMusicList.EnQueue(Simpletype);	//방금 추가된 레코드를 집어넣는다
+	}
+	*/
+	// 현재 list 출력
+	DisplayAllMusic();
+
+	return 1;
+
+}
 // Display all records in the list on screen.
 void Application::DisplayAllMusic()
 {
@@ -245,12 +307,12 @@ void Application::Delete()
 }
 
 
-//찾을 ID를 사용자에게 입력받고 SortedList의 Update함수를 호출한다.
+//찾을 ID를 사용자에게 입력받고 정보를 바꿔준다. PKey가 갱신되기때문에 Delete후 Add하는 식으로 함수가 진행된다.
 void Application::Update()
 {
 	DisplayAllMusic();
 	cout << "\t변경을 원하는 항목의 ";
-	MusicType data;	//Replace함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
+	MusicType data;	//Delete함수는 MusicType을 파라미터로 갖기 때문에 임의로 만들어준다.
 	data.SetNumFromKB();	//사용자에게서 수정할 항목의 곡 번호를 입력받는다.
 	SearchByIndex(data);
 	if (!m_List.Get(data))	//사용자가 입력한 항목이 List에 있나 검색
@@ -260,7 +322,14 @@ void Application::Update()
 	}
 	else	//찾을 수 있을때
 	{
-		
+		ManageType* tempptr = nullptr;
+		DoublyIter2<ManageType> iter(RecentlyPlayedList);	//최근 재생된목록에서 곡정보가 변경되었을 경우 포인터를 갱신해줘야 한다.
+		while (iter.NotNull())
+		{
+			if (iter.GetCurrentNode().data.getPkey() == data.GetPkey())
+				tempptr = iter.GetCurrentPtr();
+			iter.Next();
+		}
 		if (m_List.Delete(data))//기존 항목을 삭제하고
 		{
 			data.SetNameFromKB(); //사용자에게서 곡명을 입력받는다.
@@ -272,21 +341,22 @@ void Application::Update()
 			m_List.Add(data);
 			cout << "\t수정을 완료했습니다." << endl;	//수정을 성공했을 때 메시지를 출력한다.
 			DoublyIter<MusicType> Miter(m_List);
+			
 			while (Miter.NotNull())
 			{
-				if (Miter.GetCurrentNode().data == data)
+				if (Miter.GetCurrentNode().data == data)		//정보를 바꾼 원소의 위치를 찾는다.
 				{
 					MusicType* mptr;
 					mptr = Miter.GetCurrentPtr();
 					DoublyIter2<ManageType> Mgiter(mg_List);
 					while (Mgiter.NotNull())
 					{
-						if (Mgiter.GetCurrentNode().data.getPkey() == data.GetPkey())
+						if (Mgiter.GetCurrentNode().data.getPkey() == data.GetPkey())		//정보를 바꾼 원소의 주소를 기존의 원소의 정보를 담고있던 mg_List의 ptr값에 넘겨준다
 						{
 							ManageType* mgptr;
 							mgptr = Mgiter.GetCurrentPtr();
 							mgptr->setPtr(mptr);
-
+							tempptr->setPtr(mptr);//최근 재생된목록에 있던 포인터도 갱신해준다.
 						}
 						Mgiter.Next();
 					}
@@ -476,7 +546,7 @@ int Application::ReadDataFromFile()
 		L >> Genre;
 		L >> Lyrics;
 		data.SetRecord(name, singer, Album, Genre, Lyrics);
-		m_List.Add(data);
+		AddMusic(data);
 	}
 	/*
 	char fileName[FILENameSIZE];
@@ -921,12 +991,12 @@ void Application::AddMusicInPL()
 	DoublyIter2<PLType> PLiter(PlayLists);
 	while (PLiter.NotNull())
 	{
-		cout << "재생목록명 : " << PLiter.GetCurrentNode().data.getPLname();
+		cout << "\t 재생목록명 : " << PLiter.GetCurrentNode().data.getPLname();
 		cout << endl;
 		PLiter.Next();
 	}
 	string N;
-	cout << "추가하고자 하는 재생목록 선택 : " << endl;
+	cout << "\t 추가하고자 하는 재생목록 선택 : ";
 	cin >> N;
 	DoublyIter2<PLType> PLiter2(PlayLists);
 	PLType* ptr;
@@ -939,7 +1009,7 @@ void Application::AddMusicInPL()
 			int num = 1;
 			while (1)
 			{
-				cout << "추가하고자 하는 곡의 Index를 입력해주세요 0을 입력하면 그만 추가합니다" << endl;
+				cout << "\t 추가하고자 하는 곡의 Index를 입력해주세요 0을 입력하면 그만 추가합니다" << endl << "\t";
 				cin >> num;
 				if (num > m_List.GetLength() || num == 0)
 					break;
@@ -961,17 +1031,17 @@ void Application::AddMusicInPL()
 	}
 
 }
-void Application::PrintPL()
+void Application::PrintPL()	//재생목록안에 있는 내용을 출력한다.
 {
 	DoublyIter2<PLType> PLiter(PlayLists);
 	while (PLiter.NotNull())
 	{
-		cout << "재생목록명 : " << PLiter.GetCurrentNode().data.getPLname();
+		cout << "\t재생목록명 : " << PLiter.GetCurrentNode().data.getPLname();
 		cout << endl;
 		PLiter.Next();
 	}
 	string N;
-	cout << "재생목록 선택 : " << endl;
+	cout << "\t재생목록 선택 : " << endl;
 	cin >> N;
 	DoublyIter2<PLType> PLiter2(PlayLists);
 	PLType* ptr;
@@ -985,7 +1055,7 @@ void Application::PrintPL()
 			while (1)
 			{
 				int temp;
-				cout << "재생할 곡을 선택해주세요 0을 입력하면 재생목록에서 나갑니다" << endl;
+				cout << "\t재생할 곡을 선택해주세요 0을 입력하면 재생목록에서 나갑니다" << endl;
 				cin >> temp;
 				if (temp == 0)
 					break;
@@ -1018,7 +1088,7 @@ void Application::Play()
 	cout << "\t재생할 곡의 Index를 입력해주세요. " << endl;
 	int cmdIndex;
 	cin >> cmdIndex;
-	if (cmdIndex < 0)
+	if (cmdIndex <= 0)
 		return;
 	if (cmdIndex > m_List.GetLength())
 	{
@@ -1062,17 +1132,17 @@ void Application::AddRecentlyPlayedList(MusicType* mptr)
 	ManageType mg;
 	mg.setPtr(mptr);
 	
-	RecentlyPlayedList.Delete(mg);
-	RecentlyPlayedList.Add(mg);
+	RecentlyPlayedList.Delete(mg);	//기존의 재생된목록에 있는 원소를 삭제하고
+	RecentlyPlayedList.Add(mg);	//마지막에 추가해준다.
 
 }
 void Application::DisplayRecentlyPlayedMusic()
 {
 	int i = 0;
-	DoublyIter2<ManageType> mgiter(RecentlyPlayedList);
+	DoublyIter2<ManageType> mgiter(RecentlyPlayedList);	
 	mgiter.Last();
 	bool Printed = true;
-	while (mgiter.NotNull() && i < 30)
+	while (mgiter.NotNull() && i < 30)	//최근 재생된 목록에 있는 내용을 30개까지 읽어온다.
 	{
 		Printed = mgiter.GetCurrentNode().data.PrintNameNIndex();
 		if (Printed == true)
@@ -1086,14 +1156,14 @@ void Application::DisplayRecentlyPlayedMusic()
 
 void Application::AddFolder()
 {
-	FolderTracker->AddFolder();
+	CurrentFolder->AddFolder();
 }
 
 void Application::GotoMotherFolder()
 {
-	if (FolderTracker->getMfolder() != NULL)
+	if (CurrentFolder->getMfolder() != NULL)
 	{
-		FolderTracker = FolderTracker->getMfolder();
+		CurrentFolder = CurrentFolder->getMfolder();
 		cout << "폴더 이동 성공!" << endl;
 	}
 	else
@@ -1102,17 +1172,17 @@ void Application::GotoMotherFolder()
 
 void Application::GotoSubFolder()
 {
-	FolderTracker->DisplayFolders();
+	CurrentFolder->DisplayFolders();
 	string str;
 	cout << "\t이동하고 싶은 폴더를 입력해주세요 : ";
 	cin >> str;
-	FolderTracker = FolderTracker->ReturnSubFolder(str);
+	CurrentFolder = CurrentFolder->ReturnSubFolder(str);
 	
 	
 }
 void Application::DisplayFolder()
 {
-	FolderTracker->DisplayAllinFolder();
+	CurrentFolder->DisplayAllinFolder();
 }
 
 void Application::SearchModule()
@@ -1186,7 +1256,7 @@ void Application::FolderModule()
 
 	while (1)
 	{
-		cout << "\t   현재 경로 : " << FolderTracker->getFloc() << endl;
+		cout << "\t   현재 경로 : " << CurrentFolder->getFloc() << endl;
 		cout << "\t   1 : 폴더 추가하기" << endl;
 		cout << "\t   2 : 폴더 보기" << endl;
 		cout << "\t   3 : 상위 폴더로" << endl;
@@ -1245,4 +1315,16 @@ void Application::PlayListModule()
 	}
 
 
+}
+
+
+void Application::RandomPlay()
+{
+	srand(time(NULL));
+	if (m_List.GetLength() != 0)
+	{
+		int a = rand() % m_List.GetLength()+1;
+
+		Play(a);
+	}
 }
